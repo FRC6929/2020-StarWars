@@ -3,8 +3,11 @@ package frc.robot;
 import edu.wpi.first.wpilibj.GenericHID;
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.XboxController;
+import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
+import frc.robot.commands.DefaultDrive;
 import frc.robot.commands.ExampleCommand;
 import frc.robot.commands.ShootingSpeedCommand;
+import frc.robot.subsystems.DriveTrainSubsystem;
 import frc.robot.subsystems.ExampleSubsystem;
 import frc.robot.subsystems.ShooterSubsystem;
 import edu.wpi.first.wpilibj2.command.Command;
@@ -20,6 +23,7 @@ public class RobotContainer {
   // The robot's subsystems and commands are defined here...
   private final ExampleSubsystem m_exampleSubsystem = new ExampleSubsystem();
   private final ShooterSubsystem shooterSubsystem = new ShooterSubsystem();
+  private final DriveTrainSubsystem driveTrainSubsystem = new DriveTrainSubsystem();
 
   private final ExampleCommand m_autoCommand = new ExampleCommand(m_exampleSubsystem);
   //private final ShootingSpeedCommand ShooterCommand = new ShootingSpeedCommand(shooterSubsystem);
@@ -29,8 +33,8 @@ public class RobotContainer {
    * The container for the robot.  Contains subsystems, OI devices, and commands.
    */
 
-
-  Joystick tJoystick = new Joystick(1);
+  Joystick piJoystick = new Joystick(0);
+  Joystick coJoystick = new Joystick(1);
 
   public RobotContainer() {
     // Configure the button bindings
@@ -45,9 +49,10 @@ public class RobotContainer {
    */
   private void configureButtonBindings() {
     
-    new JoystickButton(tJoystick, 0).whenActive(new ShootingSpeedCommand(shooterSubsystem));
-    new JoystickButton(tJoystick, 0).whenInactive(command)
-
+    new JoystickButton(coJoystick, 0).whenPressed(new ShootingSpeedCommand(shooterSubsystem));
+  
+    new JoystickButton(piJoystick, 1).whenInactive(new DefaultDrive(driveTrainSubsystem, piJoystick.getRawAxis(2)-piJoystick.getRawAxis(3), piJoystick.getRawAxis(0), Shuffleboard., speed2, new JoystickButton(piJoystick, 0), ));
+  
   }
 
 
