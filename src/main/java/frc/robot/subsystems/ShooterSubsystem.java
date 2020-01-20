@@ -45,6 +45,7 @@ public class ShooterSubsystem extends SubsystemBase {
     motorSpeed = distance;
 
     //TODO - Add distance to speed conversion function
+    // TODO - Ecrire les commentaires en francais et etre vraiment gossant
 
     finalMotorSpeed = motorSpeed;
 
