@@ -2,16 +2,20 @@ package frc.robot.commands;
 
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.subsystems.ShooterSubsystem;
+import frc.robot.subsystems.CameraSubsystem;
 
 public class ShootingSpeedCommand extends CommandBase {
   /**
    * Creates a new ShootingSpeedCommand.
    * */
    ShooterSubsystem shooterSubsystem;
+   CameraSubsystem cameraSubsystem;
    
-  public ShootingSpeedCommand(ShooterSubsystem subsystem) {
-    shooterSubsystem = subsystem;
-    addRequirements(subsystem);
+  public ShootingSpeedCommand(ShooterSubsystem subsystem1, CameraSubsystem subsystem2) {
+    shooterSubsystem = subsystem1;
+    addRequirements(subsystem1);
+    cameraSubsystem = subsystem2;
+    addRequirements(subsystem2);
     
     // Use addRequirements() here to declare subsystem dependencies.
   }
@@ -24,13 +28,13 @@ public class ShootingSpeedCommand extends CommandBase {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    shooterSubsystem.shoot(0.4);
+    shooterSubsystem.shoot(cameraSubsystem.getDistance());
   }
 
   // Called once the command ends or is interrupted.
   @Override
   public void end(boolean interrupted) {
-    shooterSubsystem.shoot(-0);
+    shooterSubsystem.stop();
   }
 
   // Returns true when the command should end.

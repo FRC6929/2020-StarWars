@@ -23,11 +23,11 @@ public class DriveTrainSubsystem extends SubsystemBase {
    * Creates a new DriveTrainSubsystem.
    */
   public DriveTrainSubsystem() {
-    Left1 = new CANSparkMax(1, MotorType.kBrushless);
+    /*Left1 = new CANSparkMax(1, MotorType.kBrushless);
     Left2 = new CANSparkMax(2, MotorType.kBrushless);
     Right1 = new CANSparkMax(3, MotorType.kBrushless);
     Right2 = new CANSparkMax(4, MotorType.kBrushless);
-    Drive = new DifferentialDrive(Left1, Right1);
+    Drive = new DifferentialDrive(Left1, Right1);*/
   }
 
   @Override
@@ -44,13 +44,13 @@ public class DriveTrainSubsystem extends SubsystemBase {
     boolean isGoinFast = chosenMult;
     
     if(isGoinFast){
-      Drive.arcadeDrive(xSpeed*speed2, zRotation*speed2);
+      //Drive.arcadeDrive(xSpeed*speed2, zRotation*speed2);
     }
     else{
-      Drive.arcadeDrive(xSpeed*speed1, zRotation*speed1);
+      //Drive.arcadeDrive(xSpeed*speed1, zRotation*speed1);
     }
     
-    Left2.follow(Left1);
-    Right2.follow(Right1);
+    //Left2.follow(Left1);
+    //Right2.follow(Right1);
   }
 }
