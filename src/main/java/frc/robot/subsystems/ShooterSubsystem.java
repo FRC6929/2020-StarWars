@@ -25,12 +25,15 @@ public class ShooterSubsystem extends SubsystemBase {
      m_shooter1 = new CANSparkMax(5, MotorType.kBrushless);
      m_shooter2 = new CANSparkMax(6, MotorType.kBrushless);
 
+     m_shooter1.setInverted(false);
+     m_shooter2.setInverted(false);
+
      m_shooterPID = m_shooter1.getPIDController();
      m_shooterEncoder = m_shooter1.getEncoder();
 
-     m_shooterPID.setP(0.0001);
-     m_shooterPID.setI(0);
-     m_shooterPID.setD(0.01);
+     m_shooterPID.setP(0.0000001);
+     m_shooterPID.setI(0.0000001);
+     m_shooterPID.setD(0.1);
      m_shooterPID.setOutputRange(0, 1);
   }
 
@@ -42,16 +45,25 @@ public class ShooterSubsystem extends SubsystemBase {
     double motorSpeed;
     double finalMotorSpeed;
 
-    motorSpeed = distance;
+    motorSpeed = distance/5700;
 
-    //TODO - Add distance to speed conversion function
-    // TODO - Ecrire les commentaires en francais et etre vraiment gossant
-
+    //TODO Add distance to speed conversion function
+    //TODO Ecrire les commentaires en francais et etre vraiment gossant
+    //TODO non
+    if(motorSpeed > -(m_shooterEncoder.getVelocity()/5700 + 0.05)){
+      finalMotorSpeed = 0.6;
+    }
+    else{
     finalMotorSpeed = motorSpeed;
-
+    }
+    
+    if(finalMotorSpeed>1){
+      finalMotorSpeed = 1;
+    }
     m_shooterPID.setFF(15/5700*finalMotorSpeed);
 
-    m_shooterPID.setReference(finalMotorSpeed, ControlType.kVelocity);
+    m_shooterPID.setReference(1000, ControlType.kVelocity);
+    //m_shooter1.set(finalMotorSpeed/2);
     m_shooter2.follow(m_shooter1);
     SmartDashboard.putNumber("Shooter RPM", m_shooterEncoder.getVelocity());
   }
