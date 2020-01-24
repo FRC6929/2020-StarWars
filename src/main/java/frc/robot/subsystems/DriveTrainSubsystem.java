@@ -44,10 +44,10 @@ public class DriveTrainSubsystem extends SubsystemBase {
     boolean isGoinFast = chosenMult;
     
     if(isGoinFast){
-      //Drive.arcadeDrive(xSpeed*speed2, zRotation*speed2);
+      Drive.arcadeDrive(xSpeed*speed2, zRotation*speed2);
     }
     else{
-      //Drive.arcadeDrive(xSpeed*speed1, zRotation*speed1);
+      Drive.arcadeDrive(xSpeed*speed1, zRotation*speed1);
     }
     
     //Left2.follow(Left1);

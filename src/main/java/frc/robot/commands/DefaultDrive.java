@@ -22,7 +22,8 @@ public class DefaultDrive extends CommandBase {
   Double mult1;
   Double mult2;
   Boolean isFast;
-  public DefaultDrive(DriveTrainSubsystem subsystem, double forward, double rotation, double speed1, double speed2, boolean isSpeedyBoi, double reverse) {
+  
+  public DefaultDrive(DriveTrainSubsystem subsystem, double forward, double rotation, double speed1, double speed2, boolean isSpeedyBoi) {
     driveTrainSubsystem = subsystem;
 
     xSpeed = forward;
