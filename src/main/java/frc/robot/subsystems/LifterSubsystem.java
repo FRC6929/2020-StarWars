@@ -9,20 +9,16 @@ package frc.robot.subsystems;
 
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
-public class CameraSubsystem extends SubsystemBase {
+public class LifterSubsystem extends SubsystemBase {
   /**
-   * Creates a new CameraSubsystem.
+   * Creates a new LifterSubsystem.
    */
-  public CameraSubsystem() {
+  public LifterSubsystem() {
 
   }
 
   @Override
   public void periodic() {
     // This method will be called once per scheduler run
-  }
-
-  public double getDistance(){
-    return 0.8;
   }
 }

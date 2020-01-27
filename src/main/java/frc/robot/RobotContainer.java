@@ -1,5 +1,6 @@
 package frc.robot;
 
+import edu.wpi.first.networktables.NetworkTableEntry;
 // Wpilib
 import edu.wpi.first.wpilibj.GenericHID;
 import edu.wpi.first.wpilibj.Joystick;
@@ -17,7 +18,7 @@ import frc.robot.subsystems.ExampleSubsystem;
 import frc.robot.subsystems.ShooterSubsystem;
 import frc.robot.subsystems.CameraSubsystem;
 
-// wpilib 2: electric boogalo
+// Wpilib 2: electric boogalo
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 
@@ -35,7 +36,7 @@ public class RobotContainer {
   private final CameraSubsystem cameraSubsystem = new CameraSubsystem();
 
   private final ExampleCommand m_autoCommand = new ExampleCommand(m_exampleSubsystem);
-  private final ShootingSpeedCommand ShooterCommand = new ShootingSpeedCommand(shooterSubsystem, cameraSubsystem);
+  //private final ShootingSpeedCommand ShooterCommand = new ShootingSpeedCommand(shooterSubsystem, cameraSubsystem);
 
 
   /**
@@ -44,6 +45,9 @@ public class RobotContainer {
 
   Joystick piJoystick = new Joystick(0);
   Joystick coJoystick = new Joystick(1);
+
+  double vitesse1;
+  double vitesse2;
 
   boolean speedbtn = false;
 
@@ -61,13 +65,18 @@ public class RobotContainer {
   private void configureButtonBindings() {
     new JoystickButton(coJoystick, 1).toggleWhenPressed(new ShootingSpeedCommand(shooterSubsystem, cameraSubsystem));
 
-    if(new JoystickButton(piJoystick, 0).get())
-    {
+    
+    
+    if(new JoystickButton(piJoystick, 0).get()){
       speedbtn = !speedbtn;
       SmartDashboard.putBoolean("Speedy Boi", speedbtn);
+
+      vitesse1 = SmartDashboard.getNumber("vitesse 1", 0);
+      vitesse2 = SmartDashboard.getNumber("vitesse2", 0);
+    
     }
 
-    new JoystickButton(piJoystick, 1).whenInactive(new DefaultDrive(driveTrainSubsystem, piJoystick.getRawAxis(2)-piJoystick.getRawAxis(3), piJoystick.getRawAxis(0), SmartDashboard.getNumber("v1",1), SmartDashboard.getNumber("v2", 1), speedbtn));
+     new JoystickButton(piJoystick, 1).whenInactive(new DefaultDrive(driveTrainSubsystem, piJoystick.getRawAxis(2)-piJoystick.getRawAxis(3), piJoystick.getRawAxis(0), vitesse1, vitesse2, speedbtn));
   
   }
 
