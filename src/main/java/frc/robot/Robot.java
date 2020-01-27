@@ -1,8 +1,11 @@
 package frc.robot;
 
+import frc.robot.subsystems.SensorSubsystem;
+
 import edu.wpi.first.wpilibj.TimedRobot;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
+import frc.robot.commands.UpdateSensor;
 
 /**
  * The VM is configured to automatically run this class, and to call the functions corresponding to
@@ -12,9 +15,11 @@ import edu.wpi.first.wpilibj2.command.CommandScheduler;
  */
 public class Robot extends TimedRobot {
   private Command m_autonomousCommand;
+  private Command m_updatesensor;
   //private Command shooterCommand;
 
   private RobotContainer m_robotContainer;
+  private final SensorSubsystem sensorSubsystem = new SensorSubsystem();
 
   /**
    * This function is run when the robot is first started up and should be used for any
@@ -25,6 +30,7 @@ public class Robot extends TimedRobot {
     // Instantiate our RobotContainer.  This will perform all our button bindings, and put our
     // autonomous chooser on the dashboard.
     m_robotContainer = new RobotContainer();
+    m_updatesensor = new UpdateSensor(sensorSubsystem);
   }
 
   /**
@@ -90,6 +96,7 @@ public class Robot extends TimedRobot {
    */
   @Override
   public void teleopPeriodic() {
+    m_updatesensor.execute();
   }
 
   @Override
