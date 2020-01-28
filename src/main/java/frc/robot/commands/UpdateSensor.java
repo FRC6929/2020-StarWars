@@ -7,7 +7,6 @@
 
 package frc.robot.commands;
 
-import edu.wpi.first.wpilibj.DigitalInput;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.subsystems.SensorSubsystem;
@@ -28,13 +27,14 @@ public class UpdateSensor extends CommandBase {
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
-    sensorSubsystem.emit();
+    
   }
 
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    SmartDashboard.putNumber("Receveur", sensorSubsystem.receive());
+    sensorSubsystem.emit();
+    SmartDashboard.putBoolean("Receveur", sensorSubsystem.receive());
   }
 
   // Called once the command ends or is interrupted.

@@ -7,14 +7,13 @@
 
 package frc.robot.subsystems;
 
-import edu.wpi.first.wpilibj.DigitalInput;
 import edu.wpi.first.wpilibj.DigitalOutput;
-import edu.wpi.first.wpilibj.AnalogInput;
+import edu.wpi.first.wpilibj.DigitalInput;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
 public class SensorSubsystem extends SubsystemBase {
   DigitalOutput Emitter = new DigitalOutput(0);
-  AnalogInput Receiver = new AnalogInput(0);
+  DigitalInput Receiver = new DigitalInput(1);
   /**
    * Creates a new SensorSubsystem.
    */
@@ -32,9 +31,9 @@ public class SensorSubsystem extends SubsystemBase {
     Emitter.set(false);
   }
 
-  public double receive()
+  public boolean receive()
   {
-    return Receiver.getVoltage();
+    return Receiver.get();
   }
 
   @Override

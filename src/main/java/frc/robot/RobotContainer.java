@@ -1,11 +1,9 @@
 package frc.robot;
 
-import edu.wpi.first.networktables.NetworkTableEntry;
 // Wpilib
 import edu.wpi.first.wpilibj.GenericHID;
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.XboxController;
-import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 // Commandes
 import frc.robot.commands.DefaultDrive;
@@ -15,7 +13,6 @@ import frc.robot.commands.ShootingSpeedCommand;
 // Sous-systemes 
 import frc.robot.subsystems.DriveTrainSubsystem;
 import frc.robot.subsystems.ExampleSubsystem;
-import frc.robot.subsystems.SensorSubsystem;
 import frc.robot.subsystems.ShooterSubsystem;
 import frc.robot.subsystems.CameraSubsystem;
 
