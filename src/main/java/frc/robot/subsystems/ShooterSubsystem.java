@@ -41,8 +41,7 @@ public class ShooterSubsystem extends SubsystemBase {
     motorSpeed = distance;
 
     //TODO Add distance to speed conversion function
-    //TODO Ecrire les commentaires en francais et etre vraiment gossant
-    //TODO non
+    
     if(motorSpeed > -(m_shooterEncoder.getVelocity()/5700 - 0.1)){
       finalMotorSpeed = 1;
     }

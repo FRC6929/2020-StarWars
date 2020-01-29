@@ -8,6 +8,9 @@
 package frc.robot.commands;
 
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
+import frc.robot.subsystems.CameraSubsystem;
+import frc.robot.subsystems.DriveTrainSubsystem;
+import frc.robot.subsystems.ShooterSubsystem;
 
 // NOTE:  Consider using this command inline, rather than writing a subclass.  For more
 // information, see:
@@ -16,9 +19,16 @@ public class ShootingCommand extends SequentialCommandGroup {
   /**
    * Creates a new ShootingCommand.
    */
-  public ShootingCommand() {
+
+
+
+  public ShootingCommand(ShooterSubsystem shooter, DriveTrainSubsystem drive, CameraSubsystem camera) {
     // Add your commands in the super() call, e.g.
     // super(new FooCommand(), new BarCommand());
-    super();
+    super(
+new ShootingAngleCommand(drive, camera),
+new ShootingSpeedCommand(shooter, camera)
+
+    );
   }
 }

@@ -51,4 +51,7 @@ public class DriveTrainSubsystem extends SubsystemBase {
     //Left2.follow(Left1);
     //Right2.follow(Right1);
   }
+  public void PIDControl(double turn){
+    Drive.arcadeDrive(0, turn);
+  }
 }

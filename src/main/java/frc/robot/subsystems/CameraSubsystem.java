@@ -7,6 +7,7 @@
 
 package frc.robot.subsystems;
 
+import edu.wpi.first.networktables.NetworkTableInstance;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
 public class CameraSubsystem extends SubsystemBase {
@@ -23,6 +24,13 @@ public class CameraSubsystem extends SubsystemBase {
   }
 
   public double getDistance(){
-    return 0.8;
+    //return NetworkTableInstance.getDefault().getTable("limelight").getEntry("ty").getDouble(0);
+    return 0;
+  }
+  public double getAngleOffset(){
+    return NetworkTableInstance.getDefault().getTable("limelight").getEntry("tx").getDouble(0);
+  }
+  public double getTargetNumber(){
+    return NetworkTableInstance.getDefault().getTable("limelight").getEntry("tv").getDouble(0);
   }
 }
