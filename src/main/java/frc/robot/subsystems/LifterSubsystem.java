@@ -7,6 +7,7 @@
 
 package frc.robot.subsystems;
 
+import com.revrobotics.CANEncoder;
 import com.revrobotics.CANSparkMax;
 import com.revrobotics.CANSparkMaxLowLevel.MotorType;
 
@@ -20,13 +21,14 @@ public class LifterSubsystem extends SubsystemBase {
   CANSparkMax Lifter1;
   CANSparkMax Lifter2;
   CANSparkMax Lifter3;
+  CANEncoder LifterEncoder;
 
   public LifterSubsystem() {
 
     Lifter1 = new CANSparkMax(3, MotorType.kBrushless);
     Lifter2 = new CANSparkMax(4, MotorType.kBrushless);
     Lifter3 = new CANSparkMax(5, MotorType.kBrushless);
-
+    LifterEncoder = new CANEncoder(Lifter1);
   }
 
   @Override
@@ -35,16 +37,30 @@ public class LifterSubsystem extends SubsystemBase {
   }
   public void panique(){
 
-    Lifter1.set(1);
-    Lifter2.follow(Lifter1);
-    Lifter3.follow(Lifter2);
+    if(LifterEncoder.getPosition() < 300){
+      Lifter1.set(1);
+      Lifter2.follow(Lifter1);
+      Lifter3.follow(Lifter2);
+    }
+    else{
+      Lifter1.set(0);
+      Lifter2.follow(Lifter1);
+      Lifter3.follow(Lifter2);
+    }
 
   }
   public void suspense(){
     
-    Lifter1.set(-1);
-    Lifter2.follow(Lifter1);
-    Lifter3.follow(Lifter2);
+    if(LifterEncoder.getPosition() > 0){
+      Lifter1.set(-1);
+      Lifter2.follow(Lifter1);
+      Lifter3.follow(Lifter2);
+    }
+    else{
+      Lifter1.set(0);
+      Lifter2.follow(Lifter1);
+      Lifter3.follow(Lifter2);
+    }
   
   }
 }
