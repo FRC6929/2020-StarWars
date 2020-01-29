@@ -19,7 +19,7 @@ public class Robot extends TimedRobot {
   //private Command shooterCommand;
 
   private RobotContainer m_robotContainer;
-  private final SensorSubsystem sensorSubsystem = new SensorSubsystem();
+  private final SensorSubsystem sensorSubsystem = new SensorSubsystem(1);
 
   /**
    * This function is run when the robot is first started up and should be used for any
