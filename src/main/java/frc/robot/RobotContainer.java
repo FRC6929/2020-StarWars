@@ -6,20 +6,17 @@ import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 // Commandes
 import frc.robot.commands.DefaultDrive;
-import frc.robot.commands.ExampleCommand;
 import frc.robot.commands.LifterDown;
 import frc.robot.commands.LifterUp;
 import frc.robot.commands.ShootingCommand;
 import frc.robot.commands.ShootingSpeedCommand;
 // Sous-systemes 
 import frc.robot.subsystems.DriveTrainSubsystem;
-import frc.robot.subsystems.ExampleSubsystem;
 import frc.robot.subsystems.LifterSubsystem;
 import frc.robot.subsystems.ShooterSubsystem;
 import frc.robot.subsystems.CameraSubsystem;
 
 // Wpilib 2: electric boogalo
-import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 
 /**
@@ -30,13 +27,11 @@ import edu.wpi.first.wpilibj2.command.button.JoystickButton;
  */
 public class RobotContainer {
   // The robot's subsystems and commands are defined here...
-  private final ExampleSubsystem m_exampleSubsystem = new ExampleSubsystem();
   private final ShooterSubsystem shooterSubsystem = new ShooterSubsystem();
   private final DriveTrainSubsystem driveTrainSubsystem = new DriveTrainSubsystem();
   private final CameraSubsystem cameraSubsystem = new CameraSubsystem();
   private final LifterSubsystem lifterSubsystem = new LifterSubsystem();
 
-  private final ExampleCommand m_autoCommand = new ExampleCommand(m_exampleSubsystem);
   //private final ShootingSpeedCommand ShooterCommand = new ShootingSpeedCommand(shooterSubsystem, cameraSubsystem);
 
 
@@ -88,11 +83,7 @@ public class RobotContainer {
    *
    * @return the command to run in autonomous
    */
-  public Command getAutonomousCommand() {
-    // An ExampleCommand will run in autonomous
-    return m_autoCommand;
-  }
-
+  
   public double shooterSpeed(){
     return (piJoystick.getRawAxis(0)+1)/2;
   }
