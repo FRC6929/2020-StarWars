@@ -42,12 +42,12 @@ public class ShooterSubsystem extends SubsystemBase {
 
     //TODO Add distance to speed conversion function
     
-    if(motorSpeed > -(m_shooterEncoder.getVelocity()/5700 - 0.1)){
+    /*if(motorSpeed > -(m_shooterEncoder.getVelocity()/5700 - 0.1)){
       finalMotorSpeed = 1;
     }
-    else{
+    *///else{
     finalMotorSpeed = motorSpeed;
-    }
+    //}
     
     if(finalMotorSpeed>1){
       finalMotorSpeed = 1;

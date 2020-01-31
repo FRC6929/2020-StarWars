@@ -7,14 +7,17 @@
 
 package frc.robot.subsystems;
 
-import edu.wpi.first.networktables.NetworkTableInstance;
+import com.kauailabs.navx.frc.AHRS;
+
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
-public class CameraSubsystem extends SubsystemBase {
+public class ahrsSubsystem extends SubsystemBase {
   /**
-   * Creates a new CameraSubsystem.
+   * Creates a new ahrsSubsystem.
    */
-  public CameraSubsystem() {
+  AHRS ahrs;
+
+  public ahrsSubsystem() {
 
   }
 
@@ -22,15 +25,7 @@ public class CameraSubsystem extends SubsystemBase {
   public void periodic() {
     // This method will be called once per scheduler run
   }
-
-  public double getDistance(){
-    //return NetworkTableInstance.getDefault().getTable("limelight").getEntry("ty").getDouble(0);
-    return 0.45;
-  }
-  public double getAngleOffset(){
-    return NetworkTableInstance.getDefault().getTable("limelight").getEntry("tx").getDouble(0);
-  }
-  public double getTargetNumber(){
-    return NetworkTableInstance.getDefault().getTable("limelight").getEntry("tv").getDouble(0);
+  public double getAngle(){
+    return ahrs.getAngle();
   }
 }

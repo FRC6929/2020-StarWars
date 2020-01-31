@@ -7,6 +7,7 @@
 
 package frc.robot.subsystems;
 
+import com.revrobotics.CANEncoder;
 import com.revrobotics.CANSparkMax;
 import edu.wpi.first.wpilibj.drive.DifferentialDrive;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
@@ -16,6 +17,8 @@ public class DriveTrainSubsystem extends SubsystemBase {
   CANSparkMax Left2;
   CANSparkMax Right1;
   CANSparkMax Right2;
+  CANEncoder leftEncoder;
+  CANEncoder rightEncoder;
   DifferentialDrive Drive;
   /**
    * Creates a new DriveTrainSubsystem.
@@ -40,6 +43,9 @@ public class DriveTrainSubsystem extends SubsystemBase {
     double speed1 = mult1;
     double speed2 = mult2;
     boolean isGoinFast = chosenMult;
+
+    leftEncoder = new CANEncoder(Left1);
+    rightEncoder = new CANEncoder(Right1);
     
     if(isGoinFast){
       Drive.arcadeDrive(xSpeed*speed2, zRotation*speed2);
@@ -54,4 +60,16 @@ public class DriveTrainSubsystem extends SubsystemBase {
   public void PIDControl(double turn){
     Drive.arcadeDrive(0, turn);
   }
+
+  public void autoDrive(double x, double z){
+    double xSpeed = x;
+    double zRotation = z;
+    Drive.arcadeDrive(xSpeed * 0.4, zRotation * 0.4);
+  }
+
+  public double getForPos(){
+    return (leftEncoder.getPosition() + rightEncoder.getPosition())/2;
+  }
+
+
 }

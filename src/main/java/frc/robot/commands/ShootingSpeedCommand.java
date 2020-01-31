@@ -39,12 +39,12 @@ public class ShootingSpeedCommand extends CommandBase {
   // Called once the command ends or is interrupted.
   @Override
   public void end(boolean interrupted) {
-    if(cameraSubsystem.getTargetNumber() > 0){
+    //if(cameraSubsystem.getTargetNumber() > 0){
       shooterSubsystem.shoot(cameraSubsystem.getDistance());
-    }
-    else{
-      shooterSubsystem.stop();
-    }
+    //}
+    //else{
+    //  shooterSubsystem.stop();
+    //}
   }
 
   // Returns true when the command should end.

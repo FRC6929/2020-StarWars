@@ -10,7 +10,7 @@ import frc.robot.commands.ExampleCommand;
 import frc.robot.commands.LifterDown;
 import frc.robot.commands.LifterUp;
 import frc.robot.commands.ShootingCommand;
-
+import frc.robot.commands.ShootingSpeedCommand;
 // Sous-systemes 
 import frc.robot.subsystems.DriveTrainSubsystem;
 import frc.robot.subsystems.ExampleSubsystem;
@@ -65,9 +65,10 @@ public class RobotContainer {
    */
   private void configureButtonBindings() {
   //Shooter
-    new JoystickButton(coJoystick, 1).toggleWhenPressed(new ShootingCommand(shooterSubsystem, driveTrainSubsystem, cameraSubsystem));
-  
+    //new JoystickButton(coJoystick, 1).toggleWhenPressed(new ShootingCommand(shooterSubsystem, driveTrainSubsystem, cameraSubsystem));
+    new JoystickButton(coJoystick, 1).toggleWhenPressed(new ShootingSpeedCommand(shooterSubsystem, cameraSubsystem));
   //Lifter
+
     new JoystickButton(coJoystick, 11).toggleWhenPressed(new LifterUp(lifterSubsystem));
     new JoystickButton(coJoystick, 12).toggleWhenPressed(new LifterDown(lifterSubsystem));
   

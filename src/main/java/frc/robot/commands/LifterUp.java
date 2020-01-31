@@ -12,7 +12,7 @@ import frc.robot.subsystems.LifterSubsystem;
 
 public class LifterUp extends CommandBase {
 
-LifterSubsystem Lifter;
+  LifterSubsystem Lifter;
 
   /**
    * Creates a new LifterUp.
