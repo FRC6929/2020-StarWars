@@ -1,5 +1,6 @@
 package frc.robot.commands;
 
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.subsystems.ShooterSubsystem;
 import frc.robot.subsystems.CameraSubsystem;
@@ -28,23 +29,24 @@ public class ShootingSpeedCommand extends CommandBase {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    if(cameraSubsystem.getTargetNumber() > 0){
-      shooterSubsystem.shoot(cameraSubsystem.getDistance());
-    }
-    else{
-      shooterSubsystem.stop();
-    }
-  }
-
-  // Called once the command ends or is interrupted.
-  @Override
-  public void end(boolean interrupted) {
     //if(cameraSubsystem.getTargetNumber() > 0){
       shooterSubsystem.shoot(cameraSubsystem.getDistance());
     //}
     //else{
     //  shooterSubsystem.stop();
     //}
+  }
+
+  // Called once the command ends or is interrupted.
+  @Override
+  public void end(boolean interrupted) {
+    //if(cameraSubsystem.getTargetNumber() > 0){
+      //shooterSubsystem.shoot(cameraSubsystem.getDistance());
+    //}
+    //else{
+      shooterSubsystem.stop();
+    //}
+    SmartDashboard.putBoolean("fuck", true);
   }
 
   // Returns true when the command should end.

@@ -9,7 +9,10 @@ package frc.robot.subsystems;
 
 import com.revrobotics.CANEncoder;
 import com.revrobotics.CANSparkMax;
+import com.revrobotics.CANSparkMaxLowLevel.MotorType;
+
 import edu.wpi.first.wpilibj.drive.DifferentialDrive;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
 public class DriveTrainSubsystem extends SubsystemBase {
@@ -24,11 +27,13 @@ public class DriveTrainSubsystem extends SubsystemBase {
    * Creates a new DriveTrainSubsystem.
    */
   public DriveTrainSubsystem() {
-    /*Left1 = new CANSparkMax(1, MotorType.kBrushless);
-    Left2 = new CANSparkMax(2, MotorType.kBrushless);
-    Right1 = new CANSparkMax(3, MotorType.kBrushless);
+    Left1 = new CANSparkMax(1, MotorType.kBrushless);
+    Left2 = new CANSparkMax(3, MotorType.kBrushless);
+    Right1 = new CANSparkMax(2, MotorType.kBrushless);
     Right2 = new CANSparkMax(4, MotorType.kBrushless);
-    Drive = new DifferentialDrive(Left1, Right1);*/
+    Right1.setInverted(true);
+    Right2.setInverted(true);
+    Drive = new DifferentialDrive(Left1, Right1);
   }
 
   @Override
@@ -46,16 +51,25 @@ public class DriveTrainSubsystem extends SubsystemBase {
 
     leftEncoder = new CANEncoder(Left1);
     rightEncoder = new CANEncoder(Right1);
+
+    SmartDashboard.putBoolean("isGoinFast", isGoinFast);
+    SmartDashboard.putNumber("speed1", speed1);
+    SmartDashboard.putNumber("speed2", speed2);
+    SmartDashboard.putNumber("xSpeed", xSpeed);
+    SmartDashboard.putNumber("zRotation", zRotation);
     
     if(isGoinFast){
       Drive.arcadeDrive(xSpeed*speed2, zRotation*speed2);
+      /*Left2.follow(Left1);
+      Right2.follow(Right1);*/
     }
     else{
       Drive.arcadeDrive(xSpeed*speed1, zRotation*speed1);
+      Left2.follow(Left1);
+      Right2.follow(Right1);
     }
     
-    //Left2.follow(Left1);
-    //Right2.follow(Right1);
+    
   }
   public void PIDControl(double turn){
     Drive.arcadeDrive(0, turn);

@@ -11,7 +11,7 @@ package frc.robot.commands;
 import edu.wpi.first.wpilibj.controller.PIDController;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.subsystems.DriveTrainSubsystem;
-import frc.robot.subsystems.ahrsSubsystem;
+import frc.robot.subsystems.AhrsSubsystem;
 
 public class AutonomousCommands extends CommandBase {
   /**
@@ -19,7 +19,7 @@ public class AutonomousCommands extends CommandBase {
    */
   int AutoPosition;
   DriveTrainSubsystem drive;
-  ahrsSubsystem ahrs;
+  AhrsSubsystem AHRS;
 
   double forTarget;
   double rotTarget;
@@ -31,9 +31,9 @@ public class AutonomousCommands extends CommandBase {
   int etape;
   boolean isReady;
 
-  public AutonomousCommands(DriveTrainSubsystem subsystem, ahrsSubsystem ahrsSub, int position) {
+  public AutonomousCommands(DriveTrainSubsystem subsystem, AhrsSubsystem ahrsSub, int position) {
     drive = subsystem;
-    ahrs = ahrsSub;
+    AHRS = ahrsSub;
     addRequirements(subsystem);
     addRequirements(ahrsSub);
      AutoPosition = position;
@@ -75,7 +75,7 @@ public class AutonomousCommands extends CommandBase {
     
     
     forPosition = drive.getForPos();
-    rotPosition = ahrs.getAngle();
+    rotPosition = AHRS.getAngle();
     
 
     if(etape == 1){
@@ -88,7 +88,7 @@ public class AutonomousCommands extends CommandBase {
     }
     if(etape == 2){
       if(!turnController.atSetpoint()){
-        drive.autoDrive(0, turnController.calculate(ahrs.getAngle(), 180)); 
+        drive.autoDrive(0, turnController.calculate(AHRS.getAngle(), 180)); 
       }
       else{
         etape++;

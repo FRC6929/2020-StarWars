@@ -1,5 +1,7 @@
 package frc.robot;
 
+import frc.robot.subsystems.ColorSensor;
+import frc.robot.subsystems.DriveTrainSubsystem;
 import frc.robot.subsystems.SensorSubsystem;
 
 import edu.wpi.first.wpilibj.TimedRobot;
@@ -20,7 +22,7 @@ public class Robot extends TimedRobot {
 
   private RobotContainer m_robotContainer;
   private final SensorSubsystem sensorSubsystem = new SensorSubsystem(1);
-
+  private final ColorSensor colorSensor = new ColorSensor();
   /**
    * This function is run when the robot is first started up and should be used for any
    * initialization code.
@@ -47,6 +49,8 @@ public class Robot extends TimedRobot {
     // and running subsystem periodic() methods.  This must be called from the robot's periodic
     // block in order for anything in the Command-based framework to work.
     CommandScheduler.getInstance().run();
+    colorSensor.GetColor();
+    
   }
 
   /**

@@ -7,34 +7,13 @@
 
 package frc.robot.commands;
 
-import java.util.function.DoubleSupplier;
-
 import edu.wpi.first.wpilibj2.command.CommandBase;
-import frc.robot.subsystems.DriveTrainSubsystem;
 
-public class DefaultDrive extends CommandBase {
+public class ColorSensorCommand extends CommandBase {
   /**
-   * Creates a new DefaultDrive.
+   * Creates a new ColorSensorCommand.
    */
-  DriveTrainSubsystem driveTrainSubsystem;
-  DoubleSupplier xSpeed;
-  DoubleSupplier ySpeed;
-  Double mult1;
-  Double mult2;
-  Boolean isFast;
-  
-  public DefaultDrive(DriveTrainSubsystem subsystem, DoubleSupplier forward, DoubleSupplier rotation, double speed1, double speed2, boolean isSpeedyBoi) {
-    driveTrainSubsystem = subsystem;
-
-    
-    xSpeed = forward;
-    ySpeed = rotation;
-    mult1 = speed1;
-    mult2 = speed2;
-    isFast = isSpeedyBoi;
-
-
-    addRequirements(driveTrainSubsystem);
+  public ColorSensorCommand() {
     // Use addRequirements() here to declare subsystem dependencies.
   }
 
@@ -46,10 +25,6 @@ public class DefaultDrive extends CommandBase {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    
-    
-    
-    driveTrainSubsystem.drive(xSpeed.getAsDouble(), xSpeed.getAsDouble(), mult1, mult2, isFast);
   }
 
   // Called once the command ends or is interrupted.

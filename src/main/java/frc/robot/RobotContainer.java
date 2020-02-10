@@ -1,19 +1,23 @@
 package frc.robot;
 
+import edu.wpi.first.networktables.NetworkTableEntry;
 // Wpilib
 import edu.wpi.first.wpilibj.GenericHID;
 import edu.wpi.first.wpilibj.Joystick;
+import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
+import edu.wpi.first.wpilibj.shuffleboard.ShuffleboardTab;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 // Commandes
 import frc.robot.commands.DefaultDrive;
 import frc.robot.commands.LifterDown;
 import frc.robot.commands.LifterUp;
-import frc.robot.commands.ShootingCommand;
+//import frc.robot.commands.ShootingCommand;
 import frc.robot.commands.ShootingSpeedCommand;
 // Sous-systemes 
-import frc.robot.subsystems.DriveTrainSubsystem;
+//import frc.robot.subsystems.DriveTrainSubsystem;
 import frc.robot.subsystems.LifterSubsystem;
 import frc.robot.subsystems.ShooterSubsystem;
+//import frc.robot.subsystems.AhrsSubsystem;
 import frc.robot.subsystems.CameraSubsystem;
 
 // Wpilib 2: electric boogalo
@@ -28,11 +32,13 @@ import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 public class RobotContainer {
   // The robot's subsystems and commands are defined here...
   private final ShooterSubsystem shooterSubsystem = new ShooterSubsystem();
-  private final DriveTrainSubsystem driveTrainSubsystem = new DriveTrainSubsystem();
+  //private final DriveTrainSubsystem driveTrainSubsystem = new DriveTrainSubsystem();
   private final CameraSubsystem cameraSubsystem = new CameraSubsystem();
-  private final LifterSubsystem lifterSubsystem = new LifterSubsystem();
+  //private final LifterSubsystem lifterSubsystem = new LifterSubsystem();
+  //private final AhrsSubsystem ahrsSubsystem = new AhrsSubsystem();
+  
 
-  //private final ShootingSpeedCommand ShooterCommand = new ShootingSpeedCommand(shooterSubsystem, cameraSubsystem);
+  private final ShootingSpeedCommand ShooterCommand = new ShootingSpeedCommand(shooterSubsystem, cameraSubsystem);
 
 
   /**
@@ -61,20 +67,28 @@ public class RobotContainer {
   private void configureButtonBindings() {
   //Shooter
     //new JoystickButton(coJoystick, 1).toggleWhenPressed(new ShootingCommand(shooterSubsystem, driveTrainSubsystem, cameraSubsystem));
-    new JoystickButton(coJoystick, 1).toggleWhenPressed(new ShootingSpeedCommand(shooterSubsystem, cameraSubsystem));
+    new JoystickButton(coJoystick, 1).whenActive(new ShootingSpeedCommand(shooterSubsystem, cameraSubsystem));
   //Lifter
 
-    new JoystickButton(coJoystick, 11).toggleWhenPressed(new LifterUp(lifterSubsystem));
-    new JoystickButton(coJoystick, 12).toggleWhenPressed(new LifterDown(lifterSubsystem));
+    //new JoystickButton(coJoystick, 11).toggleWhenPressed(new LifterUp(lifterSubsystem));
+    //new JoystickButton(coJoystick, 12).toggleWhenPressed(new LifterDown(lifterSubsystem));
   
   //Drive
-    if(new JoystickButton(piJoystick, 0).get()){
+   ShuffleboardTab drive = Shuffleboard.getTab("Drive");
+   NetworkTableEntry maxSpeed = drive.add("Max Speed", 1).getEntry();
+   NetworkTableEntry minSpeed = drive.add("Min Speed", 1).getEntry();
+          
+      vitesse1 = minSpeed.getDouble(0);
+      vitesse2 = maxSpeed.getDouble(0);
+    if(new JoystickButton(piJoystick, 1).get()){
       speedbtn = !speedbtn;
       SmartDashboard.putBoolean("Speedy Boi", speedbtn);
-      vitesse1 = SmartDashboard.getNumber("vitesse 1", 0);
-      vitesse2 = SmartDashboard.getNumber("vitesse2", 0);
+      
     }
-    new JoystickButton(piJoystick, 1).whenInactive(new DefaultDrive(driveTrainSubsystem, piJoystick.getRawAxis(2)-piJoystick.getRawAxis(3), piJoystick.getRawAxis(0), vitesse1, vitesse2, speedbtn));
+    /*new JoystickButton(piJoystick, 1).toggleWhenPressed(new DefaultDrive(driveTrainSubsystem, 
+    () -> piJoystick.getRawAxis(2)-piJoystick.getRawAxis(3), 
+    () -> piJoystick.getRawAxis(0), 
+    vitesse1, vitesse2, speedbtn));*/
   }
 
 

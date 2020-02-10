@@ -11,13 +11,13 @@ import com.kauailabs.navx.frc.AHRS;
 
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
-public class ahrsSubsystem extends SubsystemBase {
+public class AhrsSubsystem extends SubsystemBase {
   /**
    * Creates a new ahrsSubsystem.
    */
   AHRS ahrs;
 
-  public ahrsSubsystem() {
+  public AhrsSubsystem() {
 
   }
 

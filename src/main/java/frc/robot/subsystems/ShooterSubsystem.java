@@ -15,6 +15,7 @@ public class ShooterSubsystem extends SubsystemBase {
     CANSparkMax m_shooter1;
     CANSparkMax m_shooter2;
     CANEncoder m_shooterEncoder;
+    CANEncoder m_fuck;
     
 
   public ShooterSubsystem() {
@@ -24,8 +25,8 @@ public class ShooterSubsystem extends SubsystemBase {
      m_shooter1.setInverted(false);
      m_shooter2.setInverted(false);
 
-    
-     m_shooterEncoder = m_shooter1.getEncoder();
+     m_shooterEncoder = new CANEncoder(m_shooter1);
+      m_fuck = new CANEncoder(m_shooter2);  
 
      
   }
@@ -33,29 +34,41 @@ public class ShooterSubsystem extends SubsystemBase {
   @Override
   public void periodic() {
     // This method will be called once per scheduler run
-  }
+    
+    
+
+      }
   public void shoot(double distance){
     double motorSpeed;
     double finalMotorSpeed;
+    
+    System.out.println(-m_shooterEncoder.getVelocity());
+    //SmartDashboard.putNumber("rpm",-m_shooterEncoder.getVelocity());
 
+    double trueMotorSpeed = m_shooterEncoder.getVelocity() /*/ m_shooterEncoder.getVelocityConversionFactor()*/;
+    //SmartDashboard.putNumber("please", trueMotorSpeed);
+    
     motorSpeed = distance;
 
-    //TODO Add distance to speed conversion function
     
-    /*if(motorSpeed > -(m_shooterEncoder.getVelocity()/5700 - 0.1)){
+    if(motorSpeed > -(trueMotorSpeed - 0.1)){
       finalMotorSpeed = 1;
+      
     }
-    *///else{
-    finalMotorSpeed = motorSpeed;
-    //}
+    else{
+      finalMotorSpeed = motorSpeed;
+      
+    }
     
     if(finalMotorSpeed>1){
       finalMotorSpeed = 1;
     }
     
-    m_shooter1.set(finalMotorSpeed);
+    m_shooter1.set(-finalMotorSpeed/4);
     m_shooter2.follow(m_shooter1);
-    SmartDashboard.putNumber("Shooter RPM", m_shooterEncoder.getVelocity());
+    SmartDashboard.putNumber("eillecrisse", m_shooterEncoder.getVelocity());    
+    SmartDashboard.putNumber("latabarnac", m_shooterEncoder.getPosition());
+
   }
 
   public void stop(){
