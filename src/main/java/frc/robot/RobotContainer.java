@@ -77,29 +77,33 @@ public class RobotContainer {
    * {@link edu.wpi.first.wpilibj2.command.button.JoystickButton}.
    */
   private void configureButtonBindings() {
-  //Shooter
-    //new JoystickButton(coJoystick, 1).toggleWhenPressed(new ShootingCommand(shooterSubsystem, driveTrainSubsystem, cameraSubsystem));
+    //Shooter
+    if(Constants.has_shooter)
+    {
+      new JoystickButton(coJoystick, Constants.shooter_btn_id).whenActive(new ShootingSpeedCommand(shooterSubsystem, cameraSubsystem));
+    }
+
+    //Lifter
     if(Constants.has_lifter)
     {
-      new JoystickButton(coJoystick, 1).whenActive(new ShootingSpeedCommand(shooterSubsystem, cameraSubsystem));
+      //new JoystickButton(coJoystick, 11).toggleWhenPressed(new LifterUp(lifterSubsystem));
+      //new JoystickButton(coJoystick, 12).toggleWhenPressed(new LifterDown(lifterSubsystem));
     }
-  //Lifter
-    //new JoystickButton(coJoystick, 11).toggleWhenPressed(new LifterUp(lifterSubsystem));
-    //new JoystickButton(coJoystick, 12).toggleWhenPressed(new LifterDown(lifterSubsystem));
   
-  //Drive
-   ShuffleboardTab drive = Shuffleboard.getTab("Drive");
-   NetworkTableEntry maxSpeed = drive.add("Max Speed", 1).getEntry();
-   NetworkTableEntry minSpeed = drive.add("Min Speed", 1).getEntry();
+    //Drive
+    ShuffleboardTab drive = Shuffleboard.getTab("Drive");
+    NetworkTableEntry maxSpeed = drive.add("Max Speed", 1).getEntry();
+    NetworkTableEntry minSpeed = drive.add("Min Speed", 1).getEntry();
           
-      vitesse1 = minSpeed.getDouble(0);
-      vitesse2 = maxSpeed.getDouble(0);
-    if(new JoystickButton(piJoystick, 1).get()){
+    vitesse1 = minSpeed.getDouble(0);
+    vitesse2 = maxSpeed.getDouble(0);
+    
+    if(new JoystickButton(piJoystick, Constants.speedy_btn_id).get()){
       speedbtn = !speedbtn;
       SmartDashboard.putBoolean("Speedy Boi", speedbtn);
-      
     }
-    new JoystickButton(piJoystick, 1).toggleWhenPressed(new DefaultDrive(driveTrainSubsystem, 
+
+    new JoystickButton(piJoystick, Constants.drive_btn_id).toggleWhenPressed(new DefaultDrive(driveTrainSubsystem, 
     () -> piJoystick.getRawAxis(2)-piJoystick.getRawAxis(3), 
     () -> piJoystick.getRawAxis(0), 
     vitesse1, vitesse2, speedbtn));
