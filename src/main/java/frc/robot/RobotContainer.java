@@ -1,5 +1,6 @@
 package frc.robot;
 
+import frc.robot.Constants;
 import edu.wpi.first.networktables.NetworkTableEntry;
 // Wpilib
 import edu.wpi.first.wpilibj.GenericHID;
@@ -31,14 +32,12 @@ import edu.wpi.first.wpilibj2.command.button.JoystickButton;
  */
 public class RobotContainer {
   // The robot's subsystems and commands are defined here...
-  private final ShooterSubsystem shooterSubsystem = new ShooterSubsystem();
   private final DriveTrainSubsystem driveTrainSubsystem = new DriveTrainSubsystem();
   private final CameraSubsystem cameraSubsystem = new CameraSubsystem();
   //private final LifterSubsystem lifterSubsystem = new LifterSubsystem();
   //private final AhrsSubsystem ahrsSubsystem = new AhrsSubsystem();
-  
-
-  private final ShootingSpeedCommand ShooterCommand = new ShootingSpeedCommand(shooterSubsystem, cameraSubsystem);
+  private ShooterSubsystem shooterSubsystem = new ShooterSubsystem();
+  private ShootingSpeedCommand ShooterCommand;
 
 
   /**
@@ -56,6 +55,19 @@ public class RobotContainer {
   public RobotContainer() {
     // Configure the button bindings
     configureButtonBindings();
+
+    if(Constants.has_shooter)
+    {
+      System.out.println("Creation d'un shooter");
+      this.shooterSubsystem = new ShooterSubsystem();
+      this.ShooterCommand = new ShootingSpeedCommand(shooterSubsystem, cameraSubsystem);
+    }
+    else
+    {
+      System.out.println("Pas de shooter");
+      this.shooterSubsystem = null;
+      this.ShooterCommand = null; // Peut etre pas une bonne chose
+    }
   }
 
   /**
@@ -67,9 +79,11 @@ public class RobotContainer {
   private void configureButtonBindings() {
   //Shooter
     //new JoystickButton(coJoystick, 1).toggleWhenPressed(new ShootingCommand(shooterSubsystem, driveTrainSubsystem, cameraSubsystem));
-    new JoystickButton(coJoystick, 1).whenActive(new ShootingSpeedCommand(shooterSubsystem, cameraSubsystem));
+    if(Constants.has_lifter)
+    {
+      new JoystickButton(coJoystick, 1).whenActive(new ShootingSpeedCommand(shooterSubsystem, cameraSubsystem));
+    }
   //Lifter
-
     //new JoystickButton(coJoystick, 11).toggleWhenPressed(new LifterUp(lifterSubsystem));
     //new JoystickButton(coJoystick, 12).toggleWhenPressed(new LifterDown(lifterSubsystem));
   

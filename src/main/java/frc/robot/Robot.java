@@ -1,5 +1,6 @@
 package frc.robot;
 
+import frc.robot.Constants;
 import frc.robot.subsystems.AhrsSubsystem;
 import frc.robot.subsystems.ColorSensor;
 import frc.robot.subsystems.DriveTrainSubsystem;
@@ -26,8 +27,8 @@ public class Robot extends TimedRobot {
   //private Command shooterCommand;
 
   private RobotContainer m_robotContainer;
-  private final SensorSubsystem sensorSubsystem = new SensorSubsystem(1);
-  private final ColorSensor colorSensor = new ColorSensor();
+  private SensorSubsystem sensorSubsystem;
+  private ColorSensor colorSensor;
   private final AhrsSubsystem ahrs = new AhrsSubsystem();
   //private final DriveTrainSubsystem drive = new DriveTrainSubsystem();
   /**
@@ -42,7 +43,17 @@ public class Robot extends TimedRobot {
     m_updatesensor = new UpdateSensor(sensorSubsystem);
     
     ShuffleboardTab autonomous = Shuffleboard.getTab("auto");
-   NetworkTableEntry autoPos = autonomous.add("position", 0).getEntry();
+    NetworkTableEntry autoPos = autonomous.add("position", 0).getEntry();
+
+    if(Constants.has_sensor)
+    {
+      colorSensor = new ColorSensor();
+      sensorSubsystem =  new SensorSubsystem(Constants.ir_rec_port);
+    }
+    else
+    {
+      sensorSubsystem = null;
+    }
   //m_autoCommand = new AutonomousCommands(drive, ahrs, autoPos.getDouble(0));
   }
 
@@ -110,7 +121,10 @@ public class Robot extends TimedRobot {
    */
   @Override
   public void teleopPeriodic() {
-    m_updatesensor.execute();
+    if(Constants.has_sensor)
+    {
+      m_updatesensor.execute();
+    }
   }
 
   @Override
