@@ -14,7 +14,7 @@ import frc.robot.commands.LifterUp;
 //import frc.robot.commands.ShootingCommand;
 import frc.robot.commands.ShootingSpeedCommand;
 // Sous-systemes 
-//import frc.robot.subsystems.DriveTrainSubsystem;
+import frc.robot.subsystems.DriveTrainSubsystem;
 import frc.robot.subsystems.LifterSubsystem;
 import frc.robot.subsystems.ShooterSubsystem;
 //import frc.robot.subsystems.AhrsSubsystem;
@@ -32,7 +32,7 @@ import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 public class RobotContainer {
   // The robot's subsystems and commands are defined here...
   private final ShooterSubsystem shooterSubsystem = new ShooterSubsystem();
-  //private final DriveTrainSubsystem driveTrainSubsystem = new DriveTrainSubsystem();
+  private final DriveTrainSubsystem driveTrainSubsystem = new DriveTrainSubsystem();
   private final CameraSubsystem cameraSubsystem = new CameraSubsystem();
   //private final LifterSubsystem lifterSubsystem = new LifterSubsystem();
   //private final AhrsSubsystem ahrsSubsystem = new AhrsSubsystem();
@@ -85,10 +85,10 @@ public class RobotContainer {
       SmartDashboard.putBoolean("Speedy Boi", speedbtn);
       
     }
-    /*new JoystickButton(piJoystick, 1).toggleWhenPressed(new DefaultDrive(driveTrainSubsystem, 
+    new JoystickButton(piJoystick, 1).toggleWhenPressed(new DefaultDrive(driveTrainSubsystem, 
     () -> piJoystick.getRawAxis(2)-piJoystick.getRawAxis(3), 
     () -> piJoystick.getRawAxis(0), 
-    vitesse1, vitesse2, speedbtn));*/
+    vitesse1, vitesse2, speedbtn));
   }
 
 

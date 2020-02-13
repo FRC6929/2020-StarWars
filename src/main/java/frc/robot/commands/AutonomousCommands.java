@@ -17,7 +17,7 @@ public class AutonomousCommands extends CommandBase {
   /**
    * Creates a new AutonomousCommands.
    */
-  int AutoPosition;
+  double AutoPosition;
   DriveTrainSubsystem drive;
   AhrsSubsystem AHRS;
 
@@ -31,7 +31,7 @@ public class AutonomousCommands extends CommandBase {
   int etape;
   boolean isReady;
 
-  public AutonomousCommands(DriveTrainSubsystem subsystem, AhrsSubsystem ahrsSub, int position) {
+  public AutonomousCommands(DriveTrainSubsystem subsystem, AhrsSubsystem ahrsSub, Double position) {
     drive = subsystem;
     AHRS = ahrsSub;
     addRequirements(subsystem);

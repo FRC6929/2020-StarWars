@@ -27,13 +27,18 @@ public class DriveTrainSubsystem extends SubsystemBase {
    * Creates a new DriveTrainSubsystem.
    */
   public DriveTrainSubsystem() {
-    Left1 = new CANSparkMax(1, MotorType.kBrushless);
-    Left2 = new CANSparkMax(3, MotorType.kBrushless);
+    Left1 = new CANSparkMax(3, MotorType.kBrushless);
+    Left2 = new CANSparkMax(4, MotorType.kBrushless);
     Right1 = new CANSparkMax(2, MotorType.kBrushless);
-    Right2 = new CANSparkMax(4, MotorType.kBrushless);
-    Right1.setInverted(true);
+    Right2 = new CANSparkMax(1, MotorType.kBrushless);
+    Right1.setInverted(false);
     Right2.setInverted(true);
-    Drive = new DifferentialDrive(Left1, Right1);
+    Drive = new DifferentialDrive(Left2, Right2);
+    
+    Left1.follow(Left2);
+    Right1.follow(Right2);
+
+
   }
 
   @Override
@@ -49,8 +54,10 @@ public class DriveTrainSubsystem extends SubsystemBase {
     double speed2 = mult2;
     boolean isGoinFast = chosenMult;
 
-    leftEncoder = new CANEncoder(Left1);
-    rightEncoder = new CANEncoder(Right1);
+    
+
+    //leftEncoder = new CANEncoder(Left1);
+    //rightEncoder = new CANEncoder(Right1);
 
     SmartDashboard.putBoolean("isGoinFast", isGoinFast);
     SmartDashboard.putNumber("speed1", speed1);
@@ -59,17 +66,22 @@ public class DriveTrainSubsystem extends SubsystemBase {
     SmartDashboard.putNumber("zRotation", zRotation);
     
     if(isGoinFast){
-      Drive.arcadeDrive(xSpeed*speed2, zRotation*speed2);
-      /*Left2.follow(Left1);
-      Right2.follow(Right1);*/
+      
+      Drive.arcadeDrive(xSpeed, zRotation);
+      
+      
+      
     }
     else{
-      Drive.arcadeDrive(xSpeed*speed1, zRotation*speed1);
-      Left2.follow(Left1);
-      Right2.follow(Right1);
+      
+      Drive.arcadeDrive(xSpeed, zRotation);
+      /*Left1.follow(Left2);
+      Right1.follow(Right2);*/
+      //Left1.set(0.5);
+      
     }
-    
-    
+    //Left1.set(0.2);
+    //Left1.follow(Left2);
   }
   public void PIDControl(double turn){
     Drive.arcadeDrive(0, turn);

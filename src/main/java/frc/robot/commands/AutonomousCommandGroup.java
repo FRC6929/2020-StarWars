@@ -21,7 +21,7 @@ public class AutonomousCommandGroup extends SequentialCommandGroup {
    * Creates a new AutonomousCommandGroup.
    */
 
-  public AutonomousCommandGroup(DriveTrainSubsystem drive, AhrsSubsystem ahrs, ShooterSubsystem shooter, CameraSubsystem camera, int pos) {
+  public AutonomousCommandGroup(DriveTrainSubsystem drive, AhrsSubsystem ahrs, ShooterSubsystem shooter, CameraSubsystem camera, double pos) {
 
     // Add your commands in the super() call, e.g.
     // super(new FooCommand(), new BarCommand());

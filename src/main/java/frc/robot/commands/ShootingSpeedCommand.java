@@ -30,7 +30,7 @@ public class ShootingSpeedCommand extends CommandBase {
   @Override
   public void execute() {
     //if(cameraSubsystem.getTargetNumber() > 0){
-      shooterSubsystem.shoot(cameraSubsystem.getDistance());
+      //shooterSubsystem.shoot(cameraSubsystem.getDistance());
     //}
     //else{
     //  shooterSubsystem.stop();
@@ -44,7 +44,7 @@ public class ShootingSpeedCommand extends CommandBase {
       //shooterSubsystem.shoot(cameraSubsystem.getDistance());
     //}
     //else{
-      shooterSubsystem.stop();
+      //shooterSubsystem.stop();
     //}
     SmartDashboard.putBoolean("fuck", true);
   }

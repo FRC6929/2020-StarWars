@@ -25,17 +25,17 @@ public class LifterSubsystem extends SubsystemBase {
 
   public LifterSubsystem() {
 
-    Lifter1 = new CANSparkMax(3, MotorType.kBrushless);
-    Lifter2 = new CANSparkMax(4, MotorType.kBrushless);
-    Lifter3 = new CANSparkMax(5, MotorType.kBrushless);
-    LifterEncoder = new CANEncoder(Lifter1);
+    //Lifter1 = new CANSparkMax(7, MotorType.kBrushless);
+    //Lifter2 = new CANSparkMax(8, MotorType.kBrushless);
+    //Lifter3 = new CANSparkMax(9, MotorType.kBrushless);
+    //LifterEncoder = new CANEncoder(Lifter1);
   }
 
   @Override
   public void periodic() {
     // This method will be called once per scheduler run
   }
-  public void panique(){
+  /*public void panique(){
 
     if(LifterEncoder.getPosition() < 300){
       Lifter1.set(1);
@@ -62,5 +62,5 @@ public class LifterSubsystem extends SubsystemBase {
       Lifter3.follow(Lifter2);
     }
   
-  }
+  }*/
 }

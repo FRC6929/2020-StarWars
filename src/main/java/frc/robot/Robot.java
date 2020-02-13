@@ -1,12 +1,16 @@
 package frc.robot;
 
+import frc.robot.subsystems.AhrsSubsystem;
 import frc.robot.subsystems.ColorSensor;
 import frc.robot.subsystems.DriveTrainSubsystem;
 import frc.robot.subsystems.SensorSubsystem;
-
+import edu.wpi.first.networktables.NetworkTableEntry;
 import edu.wpi.first.wpilibj.TimedRobot;
+import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
+import edu.wpi.first.wpilibj.shuffleboard.ShuffleboardTab;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
+import frc.robot.commands.AutonomousCommands;
 import frc.robot.commands.UpdateSensor;
 
 /**
@@ -18,11 +22,14 @@ import frc.robot.commands.UpdateSensor;
 public class Robot extends TimedRobot {
   private Command m_autonomousCommand;
   private Command m_updatesensor;
+  private Command m_autoCommand;
   //private Command shooterCommand;
 
   private RobotContainer m_robotContainer;
   private final SensorSubsystem sensorSubsystem = new SensorSubsystem(1);
   private final ColorSensor colorSensor = new ColorSensor();
+  private final AhrsSubsystem ahrs = new AhrsSubsystem();
+  //private final DriveTrainSubsystem drive = new DriveTrainSubsystem();
   /**
    * This function is run when the robot is first started up and should be used for any
    * initialization code.
@@ -33,6 +40,10 @@ public class Robot extends TimedRobot {
     // autonomous chooser on the dashboard.
     m_robotContainer = new RobotContainer();
     m_updatesensor = new UpdateSensor(sensorSubsystem);
+    
+    ShuffleboardTab autonomous = Shuffleboard.getTab("auto");
+   NetworkTableEntry autoPos = autonomous.add("position", 0).getEntry();
+  //m_autoCommand = new AutonomousCommands(drive, ahrs, autoPos.getDouble(0));
   }
 
   /**

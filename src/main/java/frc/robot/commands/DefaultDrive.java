@@ -49,7 +49,7 @@ public class DefaultDrive extends CommandBase {
     
     
     
-    driveTrainSubsystem.drive(xSpeed.getAsDouble(), xSpeed.getAsDouble(), mult1, mult2, isFast);
+    driveTrainSubsystem.drive(xSpeed.getAsDouble(), ySpeed.getAsDouble(), mult1, mult2, isFast);
   }
 
   // Called once the command ends or is interrupted.
