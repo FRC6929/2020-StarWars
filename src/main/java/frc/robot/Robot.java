@@ -40,7 +40,6 @@ public class Robot extends TimedRobot {
     // Instantiate our RobotContainer.  This will perform all our button bindings, and put our
     // autonomous chooser on the dashboard.
     m_robotContainer = new RobotContainer();
-    m_updatesensor = new UpdateSensor(sensorSubsystem);
     
     ShuffleboardTab autonomous = Shuffleboard.getTab("auto");
     NetworkTableEntry autoPos = autonomous.add("position", 0).getEntry();
@@ -49,9 +48,11 @@ public class Robot extends TimedRobot {
     {
       colorSensor = new ColorSensor();
       sensorSubsystem =  new SensorSubsystem(Constants.ir_rec_port);
+      m_updatesensor = new UpdateSensor(sensorSubsystem);
     }
     else
     {
+      m_updatesensor = null;
       sensorSubsystem = null;
     }
   //m_autoCommand = new AutonomousCommands(drive, ahrs, autoPos.getDouble(0));

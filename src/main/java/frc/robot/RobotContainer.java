@@ -92,7 +92,8 @@ public class RobotContainer {
   
     //Drive
     ShuffleboardTab drive = Shuffleboard.getTab("Drive");
-    NetworkTableEntry maxSpeed = drive.add("Max Speed", 1).getEntry();
+    NetworkTableEntry maxSpeed = drive.add("Max Speed", 
+   1).getEntry();
     NetworkTableEntry minSpeed = drive.add("Min Speed", 1).getEntry();
           
     vitesse1 = minSpeed.getDouble(0);
