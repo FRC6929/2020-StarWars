@@ -2,7 +2,7 @@ package frc.robot;
 
 public final class Constants {
     // Est-ce que les mechanismes sont la ?
-    public static final boolean has_shooter = false;
+    public static final boolean has_shooter = true;
     public static final boolean has_sensor = false;
     public static final boolean has_lifter = false;
 
@@ -20,4 +20,17 @@ public final class Constants {
 
     // Ports
     public static final int ir_rec_port = 1; // IR receiver port
+    
+    public static final class DriveConstants{
+        public static final int kLeftMaster = 4;
+        public static final int kLeftFollower = 3;
+        public static final int kRightMaster = 1;
+        public static final int kRightFollower = 2;
+    }
+
+    public static final class ShooterConstants{
+        public static final int kTestMotor = 0;
+
+    }
+
 }

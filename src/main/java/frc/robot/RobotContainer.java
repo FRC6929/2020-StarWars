@@ -5,22 +5,34 @@ import edu.wpi.first.networktables.NetworkTableEntry;
 // Wpilib
 import edu.wpi.first.wpilibj.GenericHID;
 import edu.wpi.first.wpilibj.Joystick;
+import edu.wpi.first.wpilibj.shuffleboard.BuiltInWidgets;
 import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
 import edu.wpi.first.wpilibj.shuffleboard.ShuffleboardTab;
+import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
+import frc.robot.commands.AutonomousCommandsTest;
+import frc.robot.commands.CommandGroupExamples;
 // Commandes
 import frc.robot.commands.DefaultDrive;
 import frc.robot.commands.LifterDown;
 import frc.robot.commands.LifterUp;
+import frc.robot.commands.ShootingCommand;
+import frc.robot.commands.AutonomousCommandGroup;
+import frc.robot.commands.AutonomousCommands;
+import frc.robot.commands.AutonomousCommandsPIDTest;
 //import frc.robot.commands.ShootingCommand;
 import frc.robot.commands.ShootingSpeedCommand;
+import frc.robot.commands.ShootingTestComm;
+import frc.robot.commands.ToggleSpeedCommand;
 // Sous-systemes 
 import frc.robot.subsystems.DriveTrainSubsystem;
 import frc.robot.subsystems.LifterSubsystem;
 import frc.robot.subsystems.ShooterSubsystem;
-//import frc.robot.subsystems.AhrsSubsystem;
+import frc.robot.subsystems.ShooterTest;
+import frc.robot.subsystems.AhrsSubsystem;
 import frc.robot.subsystems.CameraSubsystem;
-
+import edu.wpi.first.wpilibj2.command.Command;
+import edu.wpi.first.wpilibj2.command.RunCommand;
 // Wpilib 2: electric boogalo
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 
@@ -32,25 +44,30 @@ import edu.wpi.first.wpilibj2.command.button.JoystickButton;
  */
 public class RobotContainer {
   // The robot's subsystems and commands are defined here...
-  private final DriveTrainSubsystem driveTrainSubsystem = new DriveTrainSubsystem();
+ 
+  final DriveTrainSubsystem driveTrainSubsystem = new DriveTrainSubsystem();
   private final CameraSubsystem cameraSubsystem = new CameraSubsystem();
   //private final LifterSubsystem lifterSubsystem = new LifterSubsystem();
-  //private final AhrsSubsystem ahrsSubsystem = new AhrsSubsystem();
+  private final AhrsSubsystem ahrsSubsystem = new AhrsSubsystem();
   private ShooterSubsystem shooterSubsystem = new ShooterSubsystem();
   private ShootingSpeedCommand ShooterCommand;
+  private final ShooterTest shooterTest = new ShooterTest();
+
 
 
   /**
    * The container for the robot.  Contains subsystems, OI devices, and commands.
    */
-
+  
+   SendableChooser<Command> autoPos = new SendableChooser<>();
+  
   Joystick piJoystick = new Joystick(0);
   Joystick coJoystick = new Joystick(1);
 
   double vitesse1;
   double vitesse2;
 
-  boolean speedbtn = false;
+  public boolean speedbtn = false;
 
   public RobotContainer() {
     // Configure the button bindings
@@ -68,6 +85,19 @@ public class RobotContainer {
       this.shooterSubsystem = null;
       this.ShooterCommand = null; // Peut etre pas une bonne chose
     }
+
+/*
+    autoPos.setDefaultOption("no auto1", new AutonomousCommandsTest(driveTrainSubsystem, 0, 0).withTimeout(2));
+    autoPos.addOption("shooter2", new AutonomousCommandsTest(driveTrainSubsystem, 0.4, 0).withTimeout(2));
+    autoPos.addOption("middle3", new AutonomousCommandsTest(driveTrainSubsystem, -0.4, 0).withTimeout(2));
+    autoPos.addOption("charger4", new AutonomousCommandsTest(driveTrainSubsystem, 0, 0.4).withTimeout(2));
+    */
+    autoPos.setDefaultOption("no auto1", new AutonomousCommandGroup(driveTrainSubsystem,ahrsSubsystem,shooterSubsystem,cameraSubsystem,0));
+    autoPos.addOption("shooter2", new AutonomousCommandGroup(driveTrainSubsystem,ahrsSubsystem,shooterSubsystem,cameraSubsystem,1));
+    autoPos.addOption("middle3", new AutonomousCommandGroup(driveTrainSubsystem,ahrsSubsystem,shooterSubsystem,cameraSubsystem,2));
+    autoPos.addOption("charger4", new AutonomousCommandGroup(driveTrainSubsystem,ahrsSubsystem,shooterSubsystem,cameraSubsystem,3));
+    SmartDashboard.putData(autoPos);
+
   }
 
   /**
@@ -77,6 +107,9 @@ public class RobotContainer {
    * {@link edu.wpi.first.wpilibj2.command.button.JoystickButton}.
    */
   private void configureButtonBindings() {
+    
+    
+
     //Shooter
     if(Constants.has_shooter)
     {
@@ -91,24 +124,68 @@ public class RobotContainer {
     }
   
     //Drive
-    ShuffleboardTab drive = Shuffleboard.getTab("Drive");
-    NetworkTableEntry maxSpeed = drive.add("Max Speed", 
-   1).getEntry();
-    NetworkTableEntry minSpeed = drive.add("Min Speed", 1).getEntry();
-          
-    vitesse1 = minSpeed.getDouble(0);
-    vitesse2 = maxSpeed.getDouble(0);
-    
-    if(new JoystickButton(piJoystick, Constants.speedy_btn_id).get()){
-      speedbtn = !speedbtn;
-      SmartDashboard.putBoolean("Speedy Boi", speedbtn);
-    }
 
-    new JoystickButton(piJoystick, Constants.drive_btn_id).toggleWhenPressed(new DefaultDrive(driveTrainSubsystem, 
+
+    
+    
+     
+
+
+          
+    ShuffleboardTab drive = Shuffleboard.getTab("Drive");
+    NetworkTableEntry maxSpeed = drive.add("Max Speed", 1).withWidget(BuiltInWidgets.kNumberSlider).getEntry();
+    NetworkTableEntry minSpeed = drive.add("Min Speed", 1).withWidget(BuiltInWidgets.kNumberSlider).getEntry();
+    
+   /*SmartDashboard.putBoolean("quoi", new JoystickButton(piJoystick, 2).get());
+    if(new JoystickButton(piJoystick, 2).get()){
+      speedbtn = !speedbtn;
+      
+      SmartDashboard.putBoolean("Speedy Boi", speedbtn);
+     
+      
+      
+      
+    }
+    //new JoystickButton(piJoystick, Constants.speedy_btn_id).whenPressed(() -> speedbtn = true).whenReleased(() -> speedbtn = false);
+if(speedbtn){
+        driveTrainSubsystem.setSpeedFast();
+      }
+      else{
+        driveTrainSubsystem.setSpeedSlow();
+      }
+*/
+      //new JoystickButton(piJoystick, Constants.speedy_btn_id).whenPressed(new ToggleSpeedCommand(driveTrainSubsystem));
+    
+    /*new JoystickButton(piJoystick, Constants.drive_btn_id).whenInactive(new DefaultDrive(driveTrainSubsystem, 
     () -> piJoystick.getRawAxis(2)-piJoystick.getRawAxis(3), 
     () -> piJoystick.getRawAxis(0), 
-    vitesse1, vitesse2, speedbtn));
-  }
+    minSpeed, maxSpeed, ));*/
+
+      new JoystickButton(piJoystick, Constants.drive_btn_id).
+      whenPressed(new DefaultDrive(driveTrainSubsystem,
+      () -> piJoystick.getRawAxis(2)-piJoystick.getRawAxis(3), 
+      () -> piJoystick.getRawAxis(0), 
+      minSpeed, maxSpeed, true));
+      
+      new JoystickButton(piJoystick, 2).
+      whenPressed(new DefaultDrive(driveTrainSubsystem,
+      () -> piJoystick.getRawAxis(2)-piJoystick.getRawAxis(3), 
+      () -> piJoystick.getRawAxis(0), 
+      minSpeed, maxSpeed, false)/*.withTimeout(1).andThen(new ShootingTestComm(shooterTest).withTimeout(2))*/);
+
+      /*new JoystickButton(piJoystick, 3).
+      whenPressed(new DefaultDrive(driveTrainSubsystem,
+      () -> piJoystick.getRawAxis(2)-piJoystick.getRawAxis(3), 
+      () -> piJoystick.getRawAxis(0), 
+      minSpeed, maxSpeed, false).withTimeout(1).alongWith(new ShootingTestComm(shooterTest).withTimeout(2)));
+*/
+      new JoystickButton(piJoystick, 10).whileHeld(new CommandGroupExamples(driveTrainSubsystem, shooterSubsystem, cameraSubsystem, minSpeed, maxSpeed, shooterTest));
+      new JoystickButton(piJoystick, 9).whileHeld(new ShootingTestComm(shooterTest));
+      
+
+    }
+
+  
 
 
   /**
@@ -117,7 +194,12 @@ public class RobotContainer {
    * @return the command to run in autonomous
    */
   
-  public double shooterSpeed(){
-    return (piJoystick.getRawAxis(0)+1)/2;
+  //public double shooterSpeed(){
+    //return (piJoystick.getRawAxis(0)+1)/2;
+  //}
+
+  public Command getAutonomousCommand(){
+    //return autoPos.getSelected();
+    return new AutonomousCommandsPIDTest(driveTrainSubsystem, ahrsSubsystem);
   }
 }

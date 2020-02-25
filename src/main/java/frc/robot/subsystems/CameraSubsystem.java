@@ -28,9 +28,11 @@ public class CameraSubsystem extends SubsystemBase {
     return 0.6;
   }
   public double getAngleOffset(){
-    return NetworkTableInstance.getDefault().getTable("limelight").getEntry("tx").getDouble(0);
+    //return NetworkTableInstance.getDefault().getTable("limelight").getEntry("tx").getDouble(0);
+  return 90;
   }
   public double getTargetNumber(){
     return NetworkTableInstance.getDefault().getTable("limelight").getEntry("tv").getDouble(0);
+    
   }
 }

@@ -7,39 +7,17 @@
 
 package frc.robot.commands;
 
-import java.util.function.DoubleSupplier;
-
-import edu.wpi.first.networktables.NetworkTableEntry;
 import edu.wpi.first.wpilibj2.command.CommandBase;
-import frc.robot.Constants;
-import frc.robot.RobotContainer;
-import frc.robot.subsystems.DriveTrainSubsystem;
+import frc.robot.subsystems.ShooterTest;
 
-public class DefaultDrive extends CommandBase {
+public class ShootingTestComm extends CommandBase {
   /**
-   * Creates a new DefaultDrive.
+   * Creates a new ShootingTestComm.
    */
-  DriveTrainSubsystem driveTrainSubsystem;
-  DoubleSupplier xSpeed;
-  DoubleSupplier ySpeed;
-  NetworkTableEntry mult1;
-  NetworkTableEntry mult2;
-  Boolean isFast;
-
-
-  
-  public DefaultDrive(DriveTrainSubsystem subsystem, DoubleSupplier forward, DoubleSupplier rotation, NetworkTableEntry speed1, NetworkTableEntry speed2, boolean speedChoice) {
-    driveTrainSubsystem = subsystem;
-
-    
-    xSpeed = forward;
-    ySpeed = rotation;
-    mult1 = speed1;
-    mult2 = speed2;
-    isFast = speedChoice;
-
-
-    addRequirements(driveTrainSubsystem);
+  ShooterTest shooter;
+  public ShootingTestComm(ShooterTest shooterTest) {
+    shooter = shooterTest;
+    addRequirements(shooter);
     // Use addRequirements() here to declare subsystem dependencies.
   }
 
@@ -51,15 +29,13 @@ public class DefaultDrive extends CommandBase {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    
-    
-    
-    driveTrainSubsystem.drive(xSpeed.getAsDouble(), ySpeed.getAsDouble(), mult1.getDouble(1), mult2.getDouble(1), isFast);
+    shooter.sequantialTest();
   }
 
   // Called once the command ends or is interrupted.
   @Override
   public void end(boolean interrupted) {
+    shooter.stop();
   }
 
   // Returns true when the command should end.

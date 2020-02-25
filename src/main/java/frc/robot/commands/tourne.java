@@ -7,39 +7,17 @@
 
 package frc.robot.commands;
 
-import java.util.function.DoubleSupplier;
-
-import edu.wpi.first.networktables.NetworkTableEntry;
 import edu.wpi.first.wpilibj2.command.CommandBase;
-import frc.robot.Constants;
-import frc.robot.RobotContainer;
 import frc.robot.subsystems.DriveTrainSubsystem;
 
-public class DefaultDrive extends CommandBase {
+public class tourne extends CommandBase {
   /**
-   * Creates a new DefaultDrive.
+   * Creates a new tourne.
    */
-  DriveTrainSubsystem driveTrainSubsystem;
-  DoubleSupplier xSpeed;
-  DoubleSupplier ySpeed;
-  NetworkTableEntry mult1;
-  NetworkTableEntry mult2;
-  Boolean isFast;
-
-
-  
-  public DefaultDrive(DriveTrainSubsystem subsystem, DoubleSupplier forward, DoubleSupplier rotation, NetworkTableEntry speed1, NetworkTableEntry speed2, boolean speedChoice) {
-    driveTrainSubsystem = subsystem;
-
-    
-    xSpeed = forward;
-    ySpeed = rotation;
-    mult1 = speed1;
-    mult2 = speed2;
-    isFast = speedChoice;
-
-
-    addRequirements(driveTrainSubsystem);
+  DriveTrainSubsystem m_drive;
+  public tourne(DriveTrainSubsystem drive) {
+    m_drive = drive;
+    addRequirements(m_drive);
     // Use addRequirements() here to declare subsystem dependencies.
   }
 
@@ -51,10 +29,7 @@ public class DefaultDrive extends CommandBase {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    
-    
-    
-    driveTrainSubsystem.drive(xSpeed.getAsDouble(), ySpeed.getAsDouble(), mult1.getDouble(1), mult2.getDouble(1), isFast);
+    m_drive.tourne();
   }
 
   // Called once the command ends or is interrupted.

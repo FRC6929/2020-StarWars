@@ -3,12 +3,14 @@ package frc.robot;
 import frc.robot.Constants;
 import frc.robot.subsystems.AhrsSubsystem;
 import frc.robot.subsystems.ColorSensor;
-import frc.robot.subsystems.DriveTrainSubsystem;
+//import frc.robot.subsystems.DriveTrainSubsystem;
 import frc.robot.subsystems.SensorSubsystem;
-import edu.wpi.first.networktables.NetworkTableEntry;
+//import edu.wpi.first.networktables.NetworkTableEntry;
 import edu.wpi.first.wpilibj.TimedRobot;
-import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
-import edu.wpi.first.wpilibj.shuffleboard.ShuffleboardTab;
+//import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
+//import edu.wpi.first.wpilibj.shuffleboard.ShuffleboardTab;
+import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
 import frc.robot.commands.AutonomousCommands;
@@ -23,7 +25,7 @@ import frc.robot.commands.UpdateSensor;
 public class Robot extends TimedRobot {
   private Command m_autonomousCommand;
   private Command m_updatesensor;
-  private Command m_autoCommand;
+  //private Command m_autoCommand;
   //private Command shooterCommand;
 
   private RobotContainer m_robotContainer;
@@ -41,14 +43,23 @@ public class Robot extends TimedRobot {
     // autonomous chooser on the dashboard.
     m_robotContainer = new RobotContainer();
     
-    ShuffleboardTab autonomous = Shuffleboard.getTab("auto");
-    NetworkTableEntry autoPos = autonomous.add("position", 0).getEntry();
+    //ShuffleboardTab autonomous = Shuffleboard.getTab("auto");
+    //NetworkTableEntry autoPos = autonomous.add("position", 0).withWidget(widgetType).getEntry();
+    
 
+
+    m_robotContainer.driveTrainSubsystem.resetForPos();
+    ahrs.resetAngle();
+    
+    //m_autonomousCommand = new AutonomousCommands(m_robotContainer.driveTrainSubsystem, ahrs);
+
+    
     if(Constants.has_sensor)
     {
       colorSensor = new ColorSensor();
       sensorSubsystem =  new SensorSubsystem(Constants.ir_rec_port);
       m_updatesensor = new UpdateSensor(sensorSubsystem);
+      
     }
     else
     {
@@ -67,6 +78,7 @@ public class Robot extends TimedRobot {
    */
   @Override
   public void robotPeriodic() {
+    
     // Runs the Scheduler.  This is responsible for polling buttons, adding newly-scheduled
     // commands, running already-scheduled commands, removing finished or interrupted commands,
     // and running subsystem periodic() methods.  This must be called from the robot's periodic
@@ -84,6 +96,9 @@ public class Robot extends TimedRobot {
    */
   @Override
   public void disabledInit() {
+    m_robotContainer.driveTrainSubsystem.resetForPos();
+    ahrs.resetAngle();
+    
   }
 
   @Override
@@ -95,11 +110,15 @@ public class Robot extends TimedRobot {
    */
   @Override
   public void autonomousInit() {
-    
+    ahrs.resetAngle();
     // schedule the autonomous command (example)
-    if (m_autonomousCommand != null) {
+    m_autonomousCommand = m_robotContainer.getAutonomousCommand();
+
+    if(m_autonomousCommand != null){
       m_autonomousCommand.schedule();
+    
     }
+      
   }
 
   /**
@@ -115,7 +134,7 @@ public class Robot extends TimedRobot {
     // teleop starts running. If you want the autonomous to
     // continue until interrupted by another command, remove
     // this line or comment it out.
-    if (m_autonomousCommand != null) {
+    if(m_autonomousCommand != null){
       m_autonomousCommand.cancel();
     }
   }

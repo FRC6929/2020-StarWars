@@ -11,6 +11,7 @@ import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import frc.robot.subsystems.CameraSubsystem;
 import frc.robot.subsystems.DriveTrainSubsystem;
 import frc.robot.subsystems.ShooterSubsystem;
+import frc.robot.subsystems.ShooterTest;
 
 // NOTE:  Consider using this command inline, rather than writing a subclass.  For more
 // information, see:
@@ -28,7 +29,6 @@ public class ShootingCommand extends SequentialCommandGroup {
     super(
 new ShootingAngleCommand(drive, camera),
 new ShootingSpeedCommand(shooter, camera)
-
     );
   }
 }

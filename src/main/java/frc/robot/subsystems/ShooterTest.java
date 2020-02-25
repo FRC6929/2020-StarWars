@@ -7,28 +7,30 @@
 
 package frc.robot.subsystems;
 
-import com.kauailabs.navx.frc.AHRS;
-
+import edu.wpi.first.wpilibj.VictorSP;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
+import frc.robot.Constants.ShooterConstants;
 
-public class AhrsSubsystem extends SubsystemBase {
+public class ShooterTest extends SubsystemBase {
   /**
-   * Creates a new ahrsSubsystem.
+   * Creates a new ShooterTest.
    */
-  AHRS ahrs;
+    VictorSP testMotor;
 
-  public AhrsSubsystem() {
-    ahrs = new AHRS();
+  public ShooterTest() {
+
+    testMotor = new VictorSP(ShooterConstants.kTestMotor);
+
   }
 
   @Override
   public void periodic() {
     // This method will be called once per scheduler run
   }
-  public double getAngle(){
-    return ahrs.getAngle();
+  public void sequantialTest(){
+    testMotor.set(0.4);
   }
-  public void resetAngle(){
-    ahrs.reset();
+  public void stop(){
+    testMotor.set(0);
   }
 }

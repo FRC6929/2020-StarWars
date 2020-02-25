@@ -14,6 +14,7 @@ import com.revrobotics.CANSparkMaxLowLevel.MotorType;
 import edu.wpi.first.wpilibj.drive.DifferentialDrive;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
+import frc.robot.Constants.DriveConstants;
 
 public class DriveTrainSubsystem extends SubsystemBase {
   CANSparkMax Left1;
@@ -23,14 +24,15 @@ public class DriveTrainSubsystem extends SubsystemBase {
   CANEncoder leftEncoder;
   CANEncoder rightEncoder;
   DifferentialDrive Drive;
+  Boolean isGoinFast;
   /**
    * Creates a new DriveTrainSubsystem.
    */
   public DriveTrainSubsystem() {
-    Left1 = new CANSparkMax(3, MotorType.kBrushless);
-    Left2 = new CANSparkMax(4, MotorType.kBrushless);
-    Right1 = new CANSparkMax(2, MotorType.kBrushless);
-    Right2 = new CANSparkMax(1, MotorType.kBrushless);
+    Left1 = new CANSparkMax(DriveConstants.kLeftFollower, MotorType.kBrushless);
+    Left2 = new CANSparkMax(DriveConstants.kLeftMaster, MotorType.kBrushless);
+    Right1 = new CANSparkMax(DriveConstants.kRightFollower, MotorType.kBrushless);
+    Right2 = new CANSparkMax(DriveConstants.kRightMaster, MotorType.kBrushless);
     Right1.setInverted(false);
     Right2.setInverted(true);
     Drive = new DifferentialDrive(Left2, Right2);
@@ -38,7 +40,12 @@ public class DriveTrainSubsystem extends SubsystemBase {
     Left1.follow(Left2);
     Right1.follow(Right2);
 
+    Left2.setInverted(true);
 
+    
+    
+    leftEncoder = new CANEncoder(Left1);
+    rightEncoder = new CANEncoder(Right1);
   }
 
   @Override
@@ -46,18 +53,16 @@ public class DriveTrainSubsystem extends SubsystemBase {
     // This method will be called once per scheduler run
   }
 
-  public void drive(double x, double y, double mult1, double mult2, boolean chosenMult){
+  public void drive(double x, double y, double mult1, double mult2, boolean SpeedToggle){
     
     double xSpeed = x;
     double zRotation = y;
     double speed1 = mult1;
     double speed2 = mult2;
-    boolean isGoinFast = chosenMult;
+
+    isGoinFast = SpeedToggle;
 
     
-
-    //leftEncoder = new CANEncoder(Left1);
-    //rightEncoder = new CANEncoder(Right1);
 
     SmartDashboard.putBoolean("isGoinFast", isGoinFast);
     SmartDashboard.putNumber("speed1", speed1);
@@ -67,14 +72,14 @@ public class DriveTrainSubsystem extends SubsystemBase {
     
     if(isGoinFast){
       
-      Drive.arcadeDrive(xSpeed, zRotation);
+      Drive.arcadeDrive(xSpeed*speed2, zRotation*speed2);
       
       
       
     }
     else{
       
-      Drive.arcadeDrive(xSpeed, zRotation);
+      Drive.arcadeDrive(xSpeed*speed1, zRotation*speed1);
       /*Left1.follow(Left2);
       Right1.follow(Right2);*/
       //Left1.set(0.5);
@@ -90,12 +95,33 @@ public class DriveTrainSubsystem extends SubsystemBase {
   public void autoDrive(double x, double z){
     double xSpeed = x;
     double zRotation = z;
-    Drive.arcadeDrive(xSpeed * 0.4, zRotation * 0.4);
+    Drive.arcadeDrive(xSpeed * 0.4, zRotation*-0.5);
   }
 
   public double getForPos(){
-    return (leftEncoder.getPosition() + rightEncoder.getPosition())/2;
+    return (leftEncoder.getPosition() - rightEncoder.getPosition())/2;
   }
 
+  public void resetForPos(){
+    leftEncoder.setPosition(0);
+    rightEncoder.setPosition(0);
+  }
 
+  public void setSpeedFast(){
+    isGoinFast = true;
+  }
+
+  public void setSpeedSlow(){
+    isGoinFast = false;
+  }
+  
+  public void toggleSpeed(){
+    isGoinFast = !isGoinFast;
+  }
+  public void avance(){
+    Drive.arcadeDrive(0.3, 0);
+  }
+  public void tourne(){
+    Drive.arcadeDrive(0, 0.3);
+  }
 }

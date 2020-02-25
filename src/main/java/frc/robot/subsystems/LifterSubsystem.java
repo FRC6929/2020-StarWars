@@ -37,7 +37,7 @@ public class LifterSubsystem extends SubsystemBase {
   }
   /*public void panique(){
 
-    if(LifterEncoder.getPosition() < 300){
+    if(LifterEncoder.getPosition() < 10){
       Lifter1.set(1);
       Lifter2.follow(Lifter1);
       Lifter3.follow(Lifter2);

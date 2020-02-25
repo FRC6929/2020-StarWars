@@ -15,7 +15,7 @@ import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.subsystems.DriveTrainSubsystem;
 import frc.robot.subsystems.AhrsSubsystem;
 
-public class AutonomousCommands extends CommandBase {
+public class AutonomousCommandsPIDTest extends CommandBase {
   /**
    * Creates a new AutonomousCommands.
    */
@@ -33,13 +33,19 @@ public class AutonomousCommands extends CommandBase {
   int etape;
   boolean isReady;
 
-  public AutonomousCommands(DriveTrainSubsystem subsystem, AhrsSubsystem ahrsSub, int position) {
+  double p = 0.1;
+  double i = 0;
+  double d = 0;
+
+  double Setpoint = 30;
+
+  public AutonomousCommandsPIDTest(DriveTrainSubsystem subsystem, AhrsSubsystem ahrsSub) {
     drive = subsystem;
     AHRS = ahrsSub;
     addRequirements(subsystem);
     addRequirements(ahrsSub);
 
-    AutoPosition = position;
+    //AutoPosition = position;
 
     
 
@@ -53,38 +59,11 @@ public class AutonomousCommands extends CommandBase {
   public void initialize() {
 
     AHRS.resetAngle();
-    drive.resetForPos();
 
-    turnController = new PIDController(0,0,0);
+    turnController = new PIDController(p,i,d);
     turnController.setTolerance(1);
 
-    isReady = false;
-
-    SmartDashboard.putNumber("Pos", AutoPosition);
-
-    switch(AutoPosition)
-    {
-      default:
-      end(true);
-      break;
-
-      case 1:
-      forTarget = 0;
-      rotTarget = 0;
-      turnController.setSetpoint(0);
-      break;
-
-      case 2:
-      forTarget = 50;
-      rotTarget = 45;
-      turnController.setSetpoint(150);
-      break; 
-
-      case 3:
-      forTarget = 75;
-      rotTarget = 90;
-      turnController.setSetpoint(120);
-      break;
+    
     }
 
     /*
@@ -108,59 +87,39 @@ public class AutonomousCommands extends CommandBase {
     }
     */
 
-    etape = 1;
 
     
 
-  }
+  
 
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    
+    //turnController.setSetpoint(setSetpoint);
     //if(etape == 0){
     //  etape++;
     //}
-      System.out.println(etape);
-      System.out.println(turnController.getSetpoint());
+      //System.out.println(etape);
+      //System.out.println(turnController.getSetpoint());
+      double error = Setpoint - AHRS.getAngle();
       System.out.println(AHRS.getAngle());
-      System.out.println(!turnController.atSetpoint());
+      
+      //System.out.println(!turnController.atSetpoint());
 
-    forPosition = drive.getForPos();
-    rotPosition = AHRS.getAngle();
-    
-    SmartDashboard.putNumber("For", forPosition);
-    SmartDashboard.putNumber("Rot", rotPosition);
-    SmartDashboard.putNumber("etape", etape);
-    SmartDashboard.putNumber("ForT", forTarget);
-    SmartDashboard.putNumber("RotT", rotTarget);
-
-
-    if(etape == 1){
-      if(forTarget > forPosition){
-        drive.autoDrive(1, (rotTarget-rotPosition)/100);
+    //double pidOutput = turnController.calculate(AHRS.getAngle());
+    //System.out.println(pidOutput);
+    //drive.PIDControl(pidOutput);
+    //if(!turnController.atSetpoint()){
+    //  end(false);
+    //}
+      System.out.println(Math.abs(error));
+      if(Math.abs(error) < 1){
+        drive.autoDrive(0, 0);
       }
       else{
-       etape = 2;
+        drive.autoDrive(0, p*error);
       }
-    }
-    if(etape == 2){
-      if(!turnController.atSetpoint()){
-        double pidTurn = turnController.calculate(AHRS.getAngle());
-        drive.autoDrive(0, pidTurn); 
-        System.out.println(pidTurn);
-      }
-      else{
-        etape = 3;
-        double pidTurn2 = turnController.calculate(AHRS.getAngle());
-        System.out.println(pidTurn2);
-      }
-    }
-    if(etape == 3){
-      drive.autoDrive(0, 0);
-      end(false);
-    }
-
+      
   }
   public boolean getIsReady(){
 
@@ -170,7 +129,7 @@ public class AutonomousCommands extends CommandBase {
   // Called once the command ends or is interrupted.
   @Override
   public void end(boolean interrupted) {
-  
+  drive.autoDrive(0, 0);
   isReady = true;
 
   }

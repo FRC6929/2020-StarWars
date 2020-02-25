@@ -19,15 +19,15 @@ public class ShooterSubsystem extends SubsystemBase {
     
 
   public ShooterSubsystem() {
-     /*m_shooter1 = new CANSparkMax(5, MotorType.kBrushless);
+     m_shooter1 = new CANSparkMax(5, MotorType.kBrushless);
      m_shooter2 = new CANSparkMax(6, MotorType.kBrushless);
 
-     m_shooter1.setInverted(false);
-     m_shooter2.setInverted(false);
+     //m_shooter1.setInverted(false);
+     //m_shooter2.setInverted(false);
 
      m_shooterEncoder = new CANEncoder(m_shooter1);
       m_fuck = new CANEncoder(m_shooter2);  
-*/
+
      
   }
 
@@ -38,16 +38,16 @@ public class ShooterSubsystem extends SubsystemBase {
     
 
       }
-  /*public void shoot(double distance){
+  public void shoot(double distance){
     double motorSpeed;
     double finalMotorSpeed;
     
     System.out.println(-m_shooterEncoder.getVelocity());
     //SmartDashboard.putNumber("rpm",-m_shooterEncoder.getVelocity());
 
-    double trueMotorSpeed = m_shooterEncoder.getVelocity() /*//* m_shooterEncoder.getVelocityConversionFactor()*/;
+    double trueMotorSpeed = m_shooterEncoder.getVelocity();  m_shooterEncoder.getVelocityConversionFactor();
     //SmartDashboard.putNumber("please", trueMotorSpeed);
-    /*
+    
     motorSpeed = distance;
 
     
@@ -71,5 +71,5 @@ public class ShooterSubsystem extends SubsystemBase {
   public void stop(){
     m_shooter1.set(0);
     m_shooter2.follow(m_shooter1);
-  }*/
+  }
 }
