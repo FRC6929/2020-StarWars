@@ -29,12 +29,12 @@ public class ShootingSpeedCommand extends CommandBase {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    /*if(cameraSubsystem.getTargetNumber() > 0){
+    if(cameraSubsystem.getTargetNumber() > 0){
       shooterSubsystem.shoot(cameraSubsystem.getDistance());
     }
     else{
       shooterSubsystem.stop();
-    }*/
+    }
   }
 
   // Called once the command ends or is interrupted.

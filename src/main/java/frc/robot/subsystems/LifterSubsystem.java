@@ -11,6 +11,10 @@ import com.revrobotics.CANEncoder;
 import com.revrobotics.CANSparkMax;
 import com.revrobotics.CANSparkMaxLowLevel.MotorType;
 
+import edu.wpi.first.wpilibj.DoubleSolenoid;
+import edu.wpi.first.wpilibj.Encoder;
+import edu.wpi.first.wpilibj.Spark;
+import edu.wpi.first.wpilibj.DoubleSolenoid.Value;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
 public class LifterSubsystem extends SubsystemBase {
@@ -18,49 +22,68 @@ public class LifterSubsystem extends SubsystemBase {
    * Creates a new LifterSubsystem.
    */
 
-  CANSparkMax Lifter1;
-  CANSparkMax Lifter2;
-  CANSparkMax Lifter3;
-  CANEncoder LifterEncoder;
+  Spark Lifter1;
+  Spark Lifter2;
+  Spark Lifter3;
+  Encoder LifterEncoder;
+  DoubleSolenoid lifterSolenoid;
 
   public LifterSubsystem() {
 
-    //Lifter1 = new CANSparkMax(7, MotorType.kBrushless);
-    //Lifter2 = new CANSparkMax(8, MotorType.kBrushless);
-    //Lifter3 = new CANSparkMax(9, MotorType.kBrushless);
-    //LifterEncoder = new CANEncoder(Lifter1);
+    Lifter1 = new Spark(0);
+    Lifter2 = new Spark(1);
+    Lifter3 = new Spark(2);
+    LifterEncoder = new Encoder(0, 1);
+    lifterSolenoid = new DoubleSolenoid(2, 3);
+
   }
 
   @Override
   public void periodic() {
     // This method will be called once per scheduler run
   }
-  /*public void panique(){
+  public void manualUp(){
+    Lifter1.set(0.25);
+    Lifter2.set(0.25);
+    Lifter3.set(0.25);
+  }
 
-    if(LifterEncoder.getPosition() < 10){
-      Lifter1.set(1);
-      Lifter2.follow(Lifter1);
-      Lifter3.follow(Lifter2);
+  public void manualDown(){
+    Lifter1.set(-0.25);
+    Lifter2.set(-0.25);
+    Lifter3.set(-0.25);
+  }
+
+  public void panique(){
+
+    if(LifterEncoder.get() < 10){
+      Lifter1.set(0.25);
+      Lifter2.set(0.25);
+      Lifter3.set(0.25);
     }
     else{
       Lifter1.set(0);
-      Lifter2.follow(Lifter1);
-      Lifter3.follow(Lifter2);
+      Lifter2.set(0);
+      Lifter3.set(0);
     }
 
   }
   public void suspense(){
     
-    if(LifterEncoder.getPosition() > 0){
-      Lifter1.set(-1);
-      Lifter2.follow(Lifter1);
-      Lifter3.follow(Lifter2);
+    if(LifterEncoder.get() > 2){
+      Lifter1.set(-0.25);
+      Lifter2.set(-0.25);
+      Lifter3.set(-0.25);
     }
     else{
       Lifter1.set(0);
-      Lifter2.follow(Lifter1);
-      Lifter3.follow(Lifter2);
+      Lifter2.set(0);
+      Lifter3.set(0);
     }
   
-  }*/
+  }
+
+  public void lock(){
+    lifterSolenoid.set(Value.kForward);
+  }
 }

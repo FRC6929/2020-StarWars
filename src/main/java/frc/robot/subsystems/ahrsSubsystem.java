@@ -9,6 +9,7 @@ package frc.robot.subsystems;
 
 import com.kauailabs.navx.frc.AHRS;
 
+import edu.wpi.first.wpilibj.SPI;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
 public class AhrsSubsystem extends SubsystemBase {
@@ -18,7 +19,7 @@ public class AhrsSubsystem extends SubsystemBase {
   AHRS ahrs;
 
   public AhrsSubsystem() {
-    ahrs = new AHRS();
+    ahrs = new AHRS(SPI.Port.kMXP);
   }
 
   @Override
@@ -26,7 +27,7 @@ public class AhrsSubsystem extends SubsystemBase {
     // This method will be called once per scheduler run
   }
   public double getAngle(){
-    return ahrs.getAngle();
+    return -ahrs.getAngle();
   }
   public void resetAngle(){
     ahrs.reset();

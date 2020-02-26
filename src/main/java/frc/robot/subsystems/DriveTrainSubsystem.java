@@ -102,6 +102,10 @@ public class DriveTrainSubsystem extends SubsystemBase {
     return (leftEncoder.getPosition() - rightEncoder.getPosition())/2;
   }
 
+  public double getForMeterPos(){
+    return getForPos()/20;
+  }
+
   public void resetForPos(){
     leftEncoder.setPosition(0);
     rightEncoder.setPosition(0);

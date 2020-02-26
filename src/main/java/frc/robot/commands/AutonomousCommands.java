@@ -33,6 +33,10 @@ public class AutonomousCommands extends CommandBase {
   int etape;
   boolean isReady;
 
+  double kP;
+  double kI;
+  double kD;
+
   public AutonomousCommands(DriveTrainSubsystem subsystem, AhrsSubsystem ahrsSub, int position) {
     drive = subsystem;
     AHRS = ahrsSub;
@@ -52,10 +56,14 @@ public class AutonomousCommands extends CommandBase {
   @Override
   public void initialize() {
 
+    kP = 0.05;
+    kI = 0.0005;
+    kD = 0.005;
+
     AHRS.resetAngle();
     drive.resetForPos();
 
-    turnController = new PIDController(0,0,0);
+    turnController = new PIDController(kP,kI,kD);
     turnController.setTolerance(1);
 
     isReady = false;
@@ -75,13 +83,13 @@ public class AutonomousCommands extends CommandBase {
       break;
 
       case 2:
-      forTarget = 50;
+      forTarget = 2;
       rotTarget = 45;
       turnController.setSetpoint(150);
       break; 
 
       case 3:
-      forTarget = 75;
+      forTarget = 3;
       rotTarget = 90;
       turnController.setSetpoint(120);
       break;
@@ -126,7 +134,7 @@ public class AutonomousCommands extends CommandBase {
       System.out.println(AHRS.getAngle());
       System.out.println(!turnController.atSetpoint());
 
-    forPosition = drive.getForPos();
+    forPosition = drive.getForMeterPos();
     rotPosition = AHRS.getAngle();
     
     SmartDashboard.putNumber("For", forPosition);
@@ -139,24 +147,29 @@ public class AutonomousCommands extends CommandBase {
     if(etape == 1){
       if(forTarget > forPosition){
         drive.autoDrive(1, (rotTarget-rotPosition)/100);
+        System.out.println("etape1");
       }
       else{
        etape = 2;
+       System.out.println("finetape1");
       }
     }
     if(etape == 2){
-      if(!turnController.atSetpoint()){
+      if(Math.abs(turnController.getSetpoint() - AHRS.getAngle()) > 1){
         double pidTurn = turnController.calculate(AHRS.getAngle());
         drive.autoDrive(0, pidTurn); 
         System.out.println(pidTurn);
+        System.out.println("etape2");
       }
       else{
         etape = 3;
         double pidTurn2 = turnController.calculate(AHRS.getAngle());
         System.out.println(pidTurn2);
+        System.out.println("finetape2");
       }
     }
     if(etape == 3){
+      System.out.println("etape3");
       drive.autoDrive(0, 0);
       end(false);
     }

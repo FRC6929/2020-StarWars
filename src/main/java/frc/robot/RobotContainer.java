@@ -10,22 +10,12 @@ import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
 import edu.wpi.first.wpilibj.shuffleboard.ShuffleboardTab;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
-import frc.robot.commands.AutonomousCommandsTest;
-import frc.robot.commands.CommandGroupExamples;
 // Commandes
-import frc.robot.commands.DefaultDrive;
-import frc.robot.commands.LifterDown;
-import frc.robot.commands.LifterUp;
-import frc.robot.commands.ShootingCommand;
-import frc.robot.commands.AutonomousCommandGroup;
-import frc.robot.commands.AutonomousCommands;
-import frc.robot.commands.AutonomousCommandsPIDTest;
 //import frc.robot.commands.ShootingCommand;
-import frc.robot.commands.ShootingSpeedCommand;
-import frc.robot.commands.ShootingTestComm;
-import frc.robot.commands.ToggleSpeedCommand;
+import frc.robot.commands.*;
 // Sous-systemes 
 import frc.robot.subsystems.DriveTrainSubsystem;
+import frc.robot.subsystems.IntakeSubsystem;
 import frc.robot.subsystems.LifterSubsystem;
 import frc.robot.subsystems.ShooterSubsystem;
 import frc.robot.subsystems.ShooterTest;
@@ -48,10 +38,11 @@ public class RobotContainer {
   final DriveTrainSubsystem driveTrainSubsystem = new DriveTrainSubsystem();
   private final CameraSubsystem cameraSubsystem = new CameraSubsystem();
   //private final LifterSubsystem lifterSubsystem = new LifterSubsystem();
-  private final AhrsSubsystem ahrsSubsystem = new AhrsSubsystem();
+ final AhrsSubsystem ahrsSubsystem = new AhrsSubsystem();
   private ShooterSubsystem shooterSubsystem = new ShooterSubsystem();
   private ShootingSpeedCommand ShooterCommand;
-  private final ShooterTest shooterTest = new ShooterTest();
+  //private final ShooterTest shooterTest = new ShooterTest();
+  //private final IntakeSubsystem intakeSubsystem = new IntakeSubsystem();
 
 
 
@@ -119,10 +110,19 @@ public class RobotContainer {
     //Lifter
     if(Constants.has_lifter)
     {
-      //new JoystickButton(coJoystick, 11).toggleWhenPressed(new LifterUp(lifterSubsystem));
-      //new JoystickButton(coJoystick, 12).toggleWhenPressed(new LifterDown(lifterSubsystem));
+      /*new JoystickButton(coJoystick, 11).toggleWhenPressed(new LifterUp(lifterSubsystem));
+      new JoystickButton(coJoystick, 12).toggleWhenPressed(new LifterDown(lifterSubsystem));
+      new JoystickButton(coJoystick, 0).whileHeld(new ManualLifterUpCommand(lifterSubsystem));
+      new JoystickButton(coJoystick, 1).whileHeld(new ManualLifterDawnCommand(lifterSubsystem));
+*/
     }
   
+    
+    //Conveyor
+    
+    //new JoystickButton(coJoystick, 1).whenPressed(new IntakeOutCommand(intakeSubsystem).withTimeout(1));
+    //new JoystickButton(coJoystick, 2).whenPressed(new ballsInCommand(intakeSubsystem), true);
+    
     //Drive
 
 
@@ -179,8 +179,8 @@ if(speedbtn){
       () -> piJoystick.getRawAxis(0), 
       minSpeed, maxSpeed, false).withTimeout(1).alongWith(new ShootingTestComm(shooterTest).withTimeout(2)));
 */
-      new JoystickButton(piJoystick, 10).whileHeld(new CommandGroupExamples(driveTrainSubsystem, shooterSubsystem, cameraSubsystem, minSpeed, maxSpeed, shooterTest));
-      new JoystickButton(piJoystick, 9).whileHeld(new ShootingTestComm(shooterTest));
+      //new JoystickButton(piJoystick, 10).whileHeld(new CommandGroupExamples(driveTrainSubsystem, shooterSubsystem, cameraSubsystem, minSpeed, maxSpeed, shooterTest));
+      //new JoystickButton(piJoystick, 9).whileHeld(new ShootingTestComm(shooterTest));
       
 
     }
@@ -200,6 +200,6 @@ if(speedbtn){
 
   public Command getAutonomousCommand(){
     //return autoPos.getSelected();
-    return new AutonomousCommandsPIDTest(driveTrainSubsystem, ahrsSubsystem);
+    return autoPos.getSelected();
   }
 }

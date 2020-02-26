@@ -2,7 +2,7 @@ package frc.robot;
 
 public final class Constants {
     // Est-ce que les mechanismes sont la ?
-    public static final boolean has_shooter = true;
+    public static final boolean has_shooter = false;
     public static final boolean has_sensor = false;
     public static final boolean has_lifter = false;
 

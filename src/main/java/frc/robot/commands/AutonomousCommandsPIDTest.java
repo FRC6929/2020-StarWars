@@ -33,11 +33,11 @@ public class AutonomousCommandsPIDTest extends CommandBase {
   int etape;
   boolean isReady;
 
-  double p = 0.1;
-  double i = 0;
-  double d = 0;
+  double p = 0.05;
+  double i = 0.0005;
+  double d = 0.005;
 
-  double Setpoint = 30;
+  double Setpoint = 180;
 
   public AutonomousCommandsPIDTest(DriveTrainSubsystem subsystem, AhrsSubsystem ahrsSub) {
     drive = subsystem;
@@ -62,7 +62,7 @@ public class AutonomousCommandsPIDTest extends CommandBase {
 
     turnController = new PIDController(p,i,d);
     turnController.setTolerance(1);
-
+    turnController.setSetpoint(Setpoint);
     
     }
 
@@ -104,6 +104,11 @@ public class AutonomousCommandsPIDTest extends CommandBase {
       double error = Setpoint - AHRS.getAngle();
       System.out.println(AHRS.getAngle());
       
+      SmartDashboard.putNumber("anglePID", AHRS.getAngle());
+      SmartDashboard.putNumber("errorPID", error);
+      SmartDashboard.putNumber("speedPID", p*error);
+
+
       //System.out.println(!turnController.atSetpoint());
 
     //double pidOutput = turnController.calculate(AHRS.getAngle());
@@ -113,12 +118,22 @@ public class AutonomousCommandsPIDTest extends CommandBase {
     //  end(false);
     //}
       System.out.println(Math.abs(error));
-      if(Math.abs(error) < 1){
+      /*if(Math.abs(error) < 1){
         drive.autoDrive(0, 0);
       }
       else{
-        drive.autoDrive(0, p*error);
-      }
+        double turnSpeed = turnController.calculate(AHRS.getAngle());
+
+        drive.autoDrive(0, turnSpeed);
+      }*/
+      /*if(turnController.atSetpoint()){
+      drive.autoDrive(0, 0);
+    }
+    else{*/
+      double turnSpeed = turnController.calculate(AHRS.getAngle());
+
+      drive.autoDrive(0, turnSpeed);
+    //}
       
   }
   public boolean getIsReady(){

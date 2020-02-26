@@ -137,6 +137,7 @@ public class Robot extends TimedRobot {
     if(m_autonomousCommand != null){
       m_autonomousCommand.cancel();
     }
+    m_robotContainer.ahrsSubsystem.resetAngle();
   }
 
   /**
@@ -148,6 +149,10 @@ public class Robot extends TimedRobot {
     {
       m_updatesensor.execute();
     }
+    SmartDashboard.putNumber("EncoderInMeters", m_robotContainer.driveTrainSubsystem.getForMeterPos());
+    SmartDashboard.putNumber("DriveEncoders", m_robotContainer.driveTrainSubsystem.getForPos());
+    SmartDashboard.putNumber("AhrsAngle", m_robotContainer.ahrsSubsystem.getAngle());
+
   }
 
   @Override
