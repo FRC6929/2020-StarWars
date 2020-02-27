@@ -22,6 +22,7 @@ import frc.robot.subsystems.ShooterTest;
 import frc.robot.subsystems.AhrsSubsystem;
 import frc.robot.subsystems.CameraSubsystem;
 import edu.wpi.first.wpilibj2.command.Command;
+import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.RunCommand;
 // Wpilib 2: electric boogalo
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
@@ -37,14 +38,14 @@ public class RobotContainer {
  
   final DriveTrainSubsystem driveTrainSubsystem = new DriveTrainSubsystem();
   private final CameraSubsystem cameraSubsystem = new CameraSubsystem();
-  //private final LifterSubsystem lifterSubsystem = new LifterSubsystem();
- final AhrsSubsystem ahrsSubsystem = new AhrsSubsystem();
+  private final LifterSubsystem lifterSubsystem = new LifterSubsystem();
+  final AhrsSubsystem ahrsSubsystem = new AhrsSubsystem();
   private ShooterSubsystem shooterSubsystem = new ShooterSubsystem();
   private ShootingSpeedCommand ShooterCommand;
   //private final ShooterTest shooterTest = new ShooterTest();
-  //private final IntakeSubsystem intakeSubsystem = new IntakeSubsystem();
+  private final IntakeSubsystem intakeSubsystem = new IntakeSubsystem();
 
-
+  String JoystickMode;
 
   /**
    * The container for the robot.  Contains subsystems, OI devices, and commands.
@@ -53,7 +54,8 @@ public class RobotContainer {
    SendableChooser<Command> autoPos = new SendableChooser<>();
   
   Joystick piJoystick = new Joystick(0);
-  Joystick coJoystick = new Joystick(1);
+  Joystick coJoystick1 = new Joystick(1);
+  Joystick coJoystick2 = new Joystick(2);
 
   double vitesse1;
   double vitesse2;
@@ -63,6 +65,15 @@ public class RobotContainer {
   public RobotContainer() {
     // Configure the button bindings
     configureButtonBindings();
+
+    if(new JoystickButton(coJoystick1, 7).get()){
+      JoystickMode = "Intake";
+    }
+    if(new JoystickButton(coJoystick1, 8).get()){
+      JoystickMode = "Lifter";
+    }
+
+
 
     if(Constants.has_shooter)
     {
@@ -104,25 +115,31 @@ public class RobotContainer {
     //Shooter
     if(Constants.has_shooter)
     {
-      new JoystickButton(coJoystick, Constants.kShooter.shooter_btn_id).whenActive(new ShootingSpeedCommand(shooterSubsystem, cameraSubsystem));
+      new JoystickButton(coJoystick1, Constants.kShooter.shooter_btn_id).whenActive(new ShootingSpeedCommand(shooterSubsystem, cameraSubsystem));
     }
 
     //Lifter
     if(Constants.has_lifter)
     {
-      /*new JoystickButton(coJoystick, 11).toggleWhenPressed(new LifterUp(lifterSubsystem));
-      new JoystickButton(coJoystick, 12).toggleWhenPressed(new LifterDown(lifterSubsystem));
-      new JoystickButton(coJoystick, 0).whileHeld(new ManualLifterUpCommand(lifterSubsystem));
-      new JoystickButton(coJoystick, 1).whileHeld(new ManualLifterDawnCommand(lifterSubsystem));
-*/
+      if(JoystickMode == "Lifter"){
+      new JoystickButton(coJoystick2, 0).toggleWhenPressed(new InstantCommand(() -> lifterSubsystem.panique(), lifterSubsystem));
+      new JoystickButton(coJoystick2, 1).toggleWhenPressed(new InstantCommand(() -> lifterSubsystem.suspense(), lifterSubsystem));
+      new JoystickButton(coJoystick2, 2).whileHeld(new RunCommand(() -> lifterSubsystem.manualUp(), lifterSubsystem));
+      new JoystickButton(coJoystick2, 3).whileHeld(new RunCommand(() -> lifterSubsystem.manualDown(), lifterSubsystem));
+    }
     }
   
     
     //Conveyor
-    
-    //new JoystickButton(coJoystick, 1).whenPressed(new IntakeOutCommand(intakeSubsystem).withTimeout(1));
-    //new JoystickButton(coJoystick, 2).whenPressed(new ballsInCommand(intakeSubsystem), true);
-    
+      if(JoystickMode == "Intake"){
+        
+    new JoystickButton(coJoystick2, 0).whenPressed(new RunCommand(() -> intakeSubsystem.ballsIn(), intakeSubsystem));
+    new JoystickButton(coJoystick2, 1).whenPressed(new RunCommand(() -> intakeSubsystem.pushBalls(), intakeSubsystem));
+    if(!new JoystickButton(coJoystick2, 0).get() && !new JoystickButton(coJoystick2, 1).get()){
+    new JoystickButton(coJoystick2, 2).whenPressed(new RunCommand(() -> intakeSubsystem.intakeOut(), intakeSubsystem));
+    new JoystickButton(coJoystick2, 3).whenPressed(new RunCommand(() -> intakeSubsystem.intakeIn(), intakeSubsystem));
+    }
+  }
     //Drive
 
 

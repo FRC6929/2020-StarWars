@@ -17,12 +17,13 @@ public class SensorSubsystem extends SubsystemBase {
    * --- Parametres ---
    * int: port, Port sur le DIO du receveur
    */
-  public SensorSubsystem(int port) {
-    Receiver = new DigitalInput(port);
+  public SensorSubsystem() {
+    
   }
 
-  public boolean receive()
+  public boolean receive(int port)
   {
+    Receiver = new DigitalInput(port);
     return Receiver.get();
   }
 
