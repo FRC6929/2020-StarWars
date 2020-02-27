@@ -36,4 +36,12 @@ public class ConveyorSubsystem extends SubsystemBase {
     Conveyor2.set(speed2);
   }
 
+  public void ManualMoveBallsForward(){
+    Conveyor1.set(0.5);
+  }
+
+  public void ManualMoveBallsReverse(){
+    Conveyor1.set(0.5);
+  }
+
 }

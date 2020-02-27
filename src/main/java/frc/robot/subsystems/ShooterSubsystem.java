@@ -14,6 +14,7 @@ public class ShooterSubsystem extends SubsystemBase {
 
     CANSparkMax m_shooter1;
     CANSparkMax m_shooter2;
+    CANSparkMax m_shooter_provider;
     CANEncoder m_shooterEncoder;
     CANEncoder m_fuck;
     
@@ -21,6 +22,7 @@ public class ShooterSubsystem extends SubsystemBase {
   public ShooterSubsystem() {
      m_shooter1 = new CANSparkMax(5, MotorType.kBrushless);
      m_shooter2 = new CANSparkMax(6, MotorType.kBrushless);
+     m_shooter_provider = new CANSparkMax(10, MotorType.kBrushless);
 
      //m_shooter1.setInverted(false);
      //m_shooter2.setInverted(false);
@@ -53,11 +55,11 @@ public class ShooterSubsystem extends SubsystemBase {
     
     if(motorSpeed > -(trueMotorSpeed - 0.1)){
       finalMotorSpeed = 1;
-      
+      m_shooter_provider.set(0);
     }
     else{
       finalMotorSpeed = motorSpeed;
-      
+      m_shooter_provider.set(1);
     }
     
     if(finalMotorSpeed>1){
