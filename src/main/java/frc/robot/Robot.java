@@ -43,6 +43,8 @@ public class Robot extends TimedRobot {
    */
   @Override
   public void robotInit() {
+    long start = System.currentTimeMillis();
+
     // Instantiate our RobotContainer.  This will perform all our button bindings, and put our
     // autonomous chooser on the dashboard.
     m_robotContainer = new RobotContainer();
@@ -70,7 +72,9 @@ public class Robot extends TimedRobot {
       m_updatesensor = null;
       sensorSubsystem = null;
     }
-  //m_autoCommand = new AutonomousCommands(drive, ahrs, autoPos.getDouble(0));
+
+    long end = System.currentTimeMillis();
+    System.out.println("--- Initialisation du robot a pris " + (end - start) + "ms ---");
   }
 
   /**
@@ -81,12 +85,8 @@ public class Robot extends TimedRobot {
    * LiveWindow and SmartDashboard integrated updating.
    */
   @Override
-  public void robotPeriodic() {
-    
-    // Runs the Scheduler.  This is responsible for polling buttons, adding newly-scheduled
-    // commands, running already-scheduled commands, removing finished or interrupted commands,
-    // and running subsystem periodic() methods.  This must be called from the robot's periodic
-    // block in order for anything in the Command-based framework to work.
+  public void robotPeriodic() 
+  {
     CommandScheduler.getInstance().run();
 
     if(Constants.has_sensor)
@@ -122,7 +122,6 @@ public class Robot extends TimedRobot {
       m_autonomousCommand.schedule();
     
     }
-      
   }
 
   /**
@@ -153,10 +152,10 @@ public class Robot extends TimedRobot {
     {
       m_updatesensor.execute();
     }
+
     SmartDashboard.putNumber("EncoderInMeters", m_robotContainer.driveTrainSubsystem.getForMeterPos());
     SmartDashboard.putNumber("DriveEncoders", m_robotContainer.driveTrainSubsystem.getForPos());
     SmartDashboard.putNumber("AhrsAngle", m_robotContainer.ahrsSubsystem.getAngle());
-
   }
 
   @Override
