@@ -9,7 +9,7 @@ package frc.robot.subsystems;
 
 import edu.wpi.first.wpilibj.VictorSP;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
-import frc.robot.Constants.ShooterConstants;
+import frc.robot.Constants.kShooter;;
 
 public class ShooterTest extends SubsystemBase {
   /**
@@ -19,7 +19,7 @@ public class ShooterTest extends SubsystemBase {
 
   public ShooterTest() {
 
-    testMotor = new VictorSP(ShooterConstants.kTestMotor);
+    testMotor = new VictorSP(kShooter.test_motor);
 
   }
 

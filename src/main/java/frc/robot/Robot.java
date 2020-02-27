@@ -1,20 +1,24 @@
 package frc.robot;
 
 import frc.robot.Constants;
+import frc.robot.Constants.kSensors;
 import frc.robot.subsystems.AhrsSubsystem;
 import frc.robot.subsystems.ColorSensor;
-//import frc.robot.subsystems.DriveTrainSubsystem;
 import frc.robot.subsystems.SensorSubsystem;
-//import edu.wpi.first.networktables.NetworkTableEntry;
 import edu.wpi.first.wpilibj.TimedRobot;
-//import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
-//import edu.wpi.first.wpilibj.shuffleboard.ShuffleboardTab;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
+
 import frc.robot.commands.AutonomousCommands;
 import frc.robot.commands.UpdateSensor;
+import frc.robot.subsystems.SensorSubsystem;
+//import frc.robot.subsystems.DriveTrainSubsystem;
+
+//import edu.wpi.first.networktables.NetworkTableEntry;
+//import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
+//import edu.wpi.first.wpilibj.shuffleboard.ShuffleboardTab;
 
 /**
  * The VM is configured to automatically run this class, and to call the functions corresponding to
@@ -57,7 +61,7 @@ public class Robot extends TimedRobot {
     if(Constants.has_sensor)
     {
       colorSensor = new ColorSensor();
-      sensorSubsystem =  new SensorSubsystem(Constants.ir_rec_port);
+      sensorSubsystem =  new SensorSubsystem(kSensors.rec_port);
       m_updatesensor = new UpdateSensor(sensorSubsystem);
       
     }

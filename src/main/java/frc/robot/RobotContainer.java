@@ -104,7 +104,7 @@ public class RobotContainer {
     //Shooter
     if(Constants.has_shooter)
     {
-      new JoystickButton(coJoystick, Constants.shooter_btn_id).whenActive(new ShootingSpeedCommand(shooterSubsystem, cameraSubsystem));
+      new JoystickButton(coJoystick, Constants.kShooter.shooter_btn_id).whenActive(new ShootingSpeedCommand(shooterSubsystem, cameraSubsystem));
     }
 
     //Lifter
@@ -161,7 +161,7 @@ if(speedbtn){
     () -> piJoystick.getRawAxis(0), 
     minSpeed, maxSpeed, ));*/
 
-      new JoystickButton(piJoystick, Constants.drive_btn_id).
+      new JoystickButton(piJoystick, Constants.kDrive.drive_btn_id).
       whenPressed(new DefaultDrive(driveTrainSubsystem,
       () -> piJoystick.getRawAxis(2)-piJoystick.getRawAxis(3), 
       () -> piJoystick.getRawAxis(0), 

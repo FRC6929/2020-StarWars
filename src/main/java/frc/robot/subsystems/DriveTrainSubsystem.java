@@ -14,7 +14,7 @@ import com.revrobotics.CANSparkMaxLowLevel.MotorType;
 import edu.wpi.first.wpilibj.drive.DifferentialDrive;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
-import frc.robot.Constants.DriveConstants;
+import frc.robot.Constants.kDrive;
 
 public class DriveTrainSubsystem extends SubsystemBase {
   CANSparkMax Left1;
@@ -29,10 +29,10 @@ public class DriveTrainSubsystem extends SubsystemBase {
    * Creates a new DriveTrainSubsystem.
    */
   public DriveTrainSubsystem() {
-    Left1 = new CANSparkMax(DriveConstants.kLeftFollower, MotorType.kBrushless);
-    Left2 = new CANSparkMax(DriveConstants.kLeftMaster, MotorType.kBrushless);
-    Right1 = new CANSparkMax(DriveConstants.kRightFollower, MotorType.kBrushless);
-    Right2 = new CANSparkMax(DriveConstants.kRightMaster, MotorType.kBrushless);
+    Left1 = new CANSparkMax(kDrive.l_follower, MotorType.kBrushless);
+    Left2 = new CANSparkMax(kDrive.l_master, MotorType.kBrushless);
+    Right1 = new CANSparkMax(kDrive.r_follower, MotorType.kBrushless);
+    Right2 = new CANSparkMax(kDrive.r_master, MotorType.kBrushless);
     Right1.setInverted(false);
     Right2.setInverted(true);
     Drive = new DifferentialDrive(Left2, Right2);
