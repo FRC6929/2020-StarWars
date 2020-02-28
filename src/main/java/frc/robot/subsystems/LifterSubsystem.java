@@ -28,6 +28,8 @@ public class LifterSubsystem extends SubsystemBase {
   Encoder LifterEncoder;
   DoubleSolenoid lifterSolenoid;
 
+  Boolean active = false;
+
   public LifterSubsystem() {
 
     Lifter1 = new Spark(0);
@@ -95,4 +97,15 @@ public class LifterSubsystem extends SubsystemBase {
     }
   }
   
+  public void stop(){
+    Lifter1.set(0);
+    Lifter2.set(0);
+    Lifter3.set(0);
+  }
+
+  public void toggle()
+  {
+    active = !active;
+    System.out.println("Toggling Lifter vers " + active);
+  }
 }

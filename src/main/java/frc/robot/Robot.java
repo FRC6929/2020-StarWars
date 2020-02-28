@@ -116,7 +116,7 @@ public class Robot extends TimedRobot {
   public void autonomousInit() {
     ahrs.resetAngle();
     // schedule the autonomous command (example)
-    m_autonomousCommand = m_robotContainer.getAutonomousCommand();
+    //m_autonomousCommand = m_robotContainer.getAutonomousCommand();
 
     if(m_autonomousCommand != null){
       m_autonomousCommand.schedule();
@@ -156,7 +156,7 @@ public class Robot extends TimedRobot {
     SmartDashboard.putNumber("EncoderInMeters", m_robotContainer.driveTrainSubsystem.getForMeterPos());
     SmartDashboard.putNumber("DriveEncoders", m_robotContainer.driveTrainSubsystem.getForPos());
     SmartDashboard.putNumber("AhrsAngle", m_robotContainer.ahrsSubsystem.getAngle());
-
+    //m_robotContainer.updateJoystickMode();
   }
 
   @Override

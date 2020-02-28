@@ -19,12 +19,12 @@ public class IntakeSubsystem extends SubsystemBase {
    * Creates a new IntakeSubsystem.
    */
 
-  DoubleSolenoid intakeSolenoid;
+  //DoubleSolenoid intakeSolenoid;
 
   CANSparkMax intakeMotor;
 
   public IntakeSubsystem() {
-    intakeSolenoid = new DoubleSolenoid(0, 1, 2);
+    //intakeSolenoid = new DoubleSolenoid(0, 1, 2);
     intakeMotor = new CANSparkMax(7, MotorType.kBrushless);
   }
 
@@ -34,11 +34,11 @@ public class IntakeSubsystem extends SubsystemBase {
   }
 
   public void intakeOut(){
-    intakeSolenoid.set(Value.kForward);
+    //intakeSolenoid.set(Value.kForward);
   }
 
   public void intakeIn(){
-    intakeSolenoid.set(Value.kReverse);
+    //intakeSolenoid.set(Value.kReverse);
   }
 
   public void ballsIn(){

@@ -41,7 +41,7 @@ public class RobotContainer {
   private final IntakeSubsystem intakeSubsystem = new IntakeSubsystem();
   private final ConveyorSubsystem conveyorSubsystem = new ConveyorSubsystem();
 
-  String JoystickMode;
+  String JoystickMode = "";
 
   /**
    * The container for the robot.  Contains subsystems, OI devices, and commands.
@@ -62,12 +62,7 @@ public class RobotContainer {
     // Configure the button bindings
     configureButtonBindings();
 
-    if(new JoystickButton(coJoystick1, 7).get()){
-      JoystickMode = "Intake";
-    }
-    if(new JoystickButton(coJoystick1, 8).get()){
-      JoystickMode = "Lifter";
-    }
+    
 
 
 
@@ -105,8 +100,9 @@ public class RobotContainer {
    * {@link edu.wpi.first.wpilibj2.command.button.JoystickButton}.
    */
   private void configureButtonBindings() {
-    
-    
+    System.out.println("configure btn binding");
+
+    // new JoystickButton(coJoystick1, 8).whenPressed(command);
 
     //Shooter
     if(Constants.has_shooter)
@@ -114,33 +110,38 @@ public class RobotContainer {
       new JoystickButton(coJoystick1, Constants.kShooter.shooter_btn_id).whenActive(new ShootingSpeedCommand(shooterSubsystem, cameraSubsystem));
     }
 
+
     //Lifter
     if(Constants.has_lifter)
     {
-      if(JoystickMode == "Lifter"){
-        if(!new JoystickButton(coJoystick2, 2).get() && !new JoystickButton(coJoystick2, 3).get() && !new JoystickButton(coJoystick2, 6).get()){
-      new JoystickButton(coJoystick2, 0).toggleWhenPressed(new InstantCommand(() -> lifterSubsystem.panique(), lifterSubsystem));
-      new JoystickButton(coJoystick2, 1).toggleWhenPressed(new InstantCommand(() -> lifterSubsystem.retract(), lifterSubsystem));
-    }
-      new JoystickButton(coJoystick2, 2).whileHeld(new RunCommand(() -> lifterSubsystem.manualUp(), lifterSubsystem));
-      new JoystickButton(coJoystick2, 3).whileHeld(new RunCommand(() -> lifterSubsystem.manualDown(), lifterSubsystem));
-    }
-    }
+      new JoystickButton(coJoystick1, 7).whenPressed(new ToggleLifter(lifterSubsystem));
+      //if(JoystickMode.equals("Lifter")){
+        //if(!new JoystickButton(coJoystick2, 2).get() && !new JoystickButton(coJoystick2, 3).get() && !new JoystickButton(coJoystick2, 6).get()){
+      //new JoystickButton(coJoystick2, 0).toggleWhenPressed(new InstantCommand(() -> lifterSubsystem.panique(), lifterSubsystem));
+      //new JoystickButton(coJoystick2, 1).toggleWhenPressed(new InstantCommand(() -> lifterSubsystem.retract(), lifterSubsystem));
+     
+      new JoystickButton(coJoystick2, 4).whenPressed(new RunCommand(() -> lifterSubsystem.manualUp(), lifterSubsystem)).whenReleased( new RunCommand(() -> lifterSubsystem.stop(), lifterSubsystem));
+      new JoystickButton(coJoystick2, 3).whenPressed(new RunCommand(() -> lifterSubsystem.manualDown(), lifterSubsystem)).whenReleased( new RunCommand(() -> lifterSubsystem.stop(), lifterSubsystem));
+      // }
+  }
+    //}
   
     
     //Conveyor
-      if(JoystickMode == "Intake"){
+    if(JoystickMode.equals("Intake")){
         
-    new JoystickButton(coJoystick2, 0).whenPressed(new RunCommand(() -> intakeSubsystem.ballsIn(), intakeSubsystem));
-    new JoystickButton(coJoystick2, 1).whenPressed(new RunCommand(() -> intakeSubsystem.pushBalls(), intakeSubsystem));
-    if(!new JoystickButton(coJoystick2, 0).get() && !new JoystickButton(coJoystick2, 1).get() ){
-    new JoystickButton(coJoystick2, 2).whenPressed(new RunCommand(() -> intakeSubsystem.intakeOut(), intakeSubsystem));
-    new JoystickButton(coJoystick2, 3).whenPressed(new RunCommand(() -> intakeSubsystem.intakeIn(), intakeSubsystem));
+      new JoystickButton(coJoystick2, 0).whenPressed(new RunCommand(() -> intakeSubsystem.ballsIn(), intakeSubsystem));
+      new JoystickButton(coJoystick2, 1).whenPressed(new RunCommand(() -> intakeSubsystem.pushBalls(), intakeSubsystem));
+      if(!new JoystickButton(coJoystick2, 0).get() && !new JoystickButton(coJoystick2, 1).get() ){
+      new JoystickButton(coJoystick2, 2).whenPressed(new RunCommand(() -> intakeSubsystem.intakeOut(), intakeSubsystem));
     }
 
-    new JoystickButton(coJoystick1, 4).whileHeld(() -> conveyorSubsystem.ManualMoveBallsForward(), conveyorSubsystem);
-    new JoystickButton(coJoystick1, 5).whileHeld(() -> conveyorSubsystem.ManualMoveBallsReverse(), conveyorSubsystem);
-  }
+      new JoystickButton(coJoystick1, 4).whileHeld(() -> conveyorSubsystem.ManualMoveBallsForward(), conveyorSubsystem);
+      new JoystickButton(coJoystick1, 5).whileHeld(() -> conveyorSubsystem.ManualMoveBallsReverse(), conveyorSubsystem);
+    }
+
+
+
     //Drive
 
 
@@ -220,8 +221,8 @@ if(speedbtn){
     //return (piJoystick.getRawAxis(0)+1)/2;
   //}
 
-  public Command getAutonomousCommand(){
+ // public Command getAutonomousCommand(){
     //return autoPos.getSelected();
-    return autoPos.getSelected();
-  }
+  //  return autoPos.getSelected();
+  //}
 }

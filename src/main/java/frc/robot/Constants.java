@@ -4,7 +4,7 @@ public final class Constants {
     // Est-ce que les mechanismes sont la ?
     public static final boolean has_shooter = false;
     public static final boolean has_sensor = false;
-    public static final boolean has_lifter = false;
+    public static final boolean has_lifter = true;
 
     public static final class kInput {
         public static final int pilote_port = 1;
