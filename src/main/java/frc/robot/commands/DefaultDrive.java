@@ -14,12 +14,14 @@ import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.Constants;
 import frc.robot.RobotContainer;
 import frc.robot.subsystems.DriveTrainSubsystem;
+import frc.robot.subsystems.LifterSubsystem;
 
 public class DefaultDrive extends CommandBase {
   /**
    * Creates a new DefaultDrive.
    */
   DriveTrainSubsystem driveTrainSubsystem;
+  LifterSubsystem lifterSubsystem;
   DoubleSupplier xSpeed;
   DoubleSupplier ySpeed;
   NetworkTableEntry mult1;
@@ -28,9 +30,9 @@ public class DefaultDrive extends CommandBase {
 
 
   
-  public DefaultDrive(DriveTrainSubsystem subsystem, DoubleSupplier forward, DoubleSupplier rotation, NetworkTableEntry speed1, NetworkTableEntry speed2, boolean speedChoice) {
-    driveTrainSubsystem = subsystem;
-
+  public DefaultDrive(DriveTrainSubsystem drive, LifterSubsystem lifter, DoubleSupplier forward, DoubleSupplier rotation, NetworkTableEntry speed1, NetworkTableEntry speed2, boolean speedChoice) {
+    driveTrainSubsystem = drive;
+    lifterSubsystem = lifter;
     
     xSpeed = forward;
     ySpeed = rotation;
@@ -40,12 +42,14 @@ public class DefaultDrive extends CommandBase {
 
 
     addRequirements(driveTrainSubsystem);
+    addRequirements(lifterSubsystem);
     // Use addRequirements() here to declare subsystem dependencies.
   }
 
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
+    lifterSubsystem.retract();
   }
 
   // Called every time the scheduler runs while the command is scheduled.

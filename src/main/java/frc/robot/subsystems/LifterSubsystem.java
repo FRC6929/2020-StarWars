@@ -68,7 +68,7 @@ public class LifterSubsystem extends SubsystemBase {
     }
 
   }
-  public void suspense(){
+  public void retract(){
     
     if(LifterEncoder.get() > 2){
       Lifter1.set(-0.25);
@@ -86,4 +86,13 @@ public class LifterSubsystem extends SubsystemBase {
   public void lock(){
     lifterSolenoid.set(Value.kForward);
   }
+
+  public void peek(){
+    if(LifterEncoder.get() < 1){
+      Lifter1.set(0.25);
+      Lifter2.set(0.25);
+      Lifter3.set(0.25);
+    }
+  }
+  
 }

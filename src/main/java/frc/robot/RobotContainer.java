@@ -118,9 +118,10 @@ public class RobotContainer {
     if(Constants.has_lifter)
     {
       if(JoystickMode == "Lifter"){
-        if(!new JoystickButton(coJoystick2, 2).get() && !new JoystickButton(coJoystick2, 3).get() && !new JoystickButton(coJoystick2, 6).get())
+        if(!new JoystickButton(coJoystick2, 2).get() && !new JoystickButton(coJoystick2, 3).get() && !new JoystickButton(coJoystick2, 6).get()){
       new JoystickButton(coJoystick2, 0).toggleWhenPressed(new InstantCommand(() -> lifterSubsystem.panique(), lifterSubsystem));
-      new JoystickButton(coJoystick2, 1).toggleWhenPressed(new InstantCommand(() -> lifterSubsystem.suspense(), lifterSubsystem));
+      new JoystickButton(coJoystick2, 1).toggleWhenPressed(new InstantCommand(() -> lifterSubsystem.retract(), lifterSubsystem));
+    }
       new JoystickButton(coJoystick2, 2).whileHeld(new RunCommand(() -> lifterSubsystem.manualUp(), lifterSubsystem));
       new JoystickButton(coJoystick2, 3).whileHeld(new RunCommand(() -> lifterSubsystem.manualDown(), lifterSubsystem));
     }
@@ -179,13 +180,17 @@ if(speedbtn){
     minSpeed, maxSpeed, ));*/
 
       new JoystickButton(piJoystick, Constants.kDrive.drive_btn_id).
-      whenPressed(new DefaultDrive(driveTrainSubsystem,
+      whenPressed(new DefaultDrive(
+        driveTrainSubsystem,
+      lifterSubsystem,
       () -> piJoystick.getRawAxis(2)-piJoystick.getRawAxis(3), 
       () -> piJoystick.getRawAxis(0), 
       minSpeed, maxSpeed, true));
       
       new JoystickButton(piJoystick, 2).
-      whenPressed(new DefaultDrive(driveTrainSubsystem,
+      whenPressed(new DefaultDrive(
+        driveTrainSubsystem,
+        lifterSubsystem,
       () -> piJoystick.getRawAxis(2)-piJoystick.getRawAxis(3), 
       () -> piJoystick.getRawAxis(0), 
       minSpeed, maxSpeed, false)/*.withTimeout(1).andThen(new ShootingTestComm(shooterTest).withTimeout(2))*/);
