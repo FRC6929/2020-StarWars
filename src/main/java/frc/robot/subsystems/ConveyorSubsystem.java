@@ -37,11 +37,18 @@ public class ConveyorSubsystem extends SubsystemBase {
   }
 
   public void ManualMoveBallsForward(){
-    Conveyor1.set(0.5);
-  }
+    Conveyor1.set(1);
+    Conveyor2.set(1);
+    }
 
   public void ManualMoveBallsReverse(){
-    Conveyor1.set(0.5);
+    Conveyor1.set(-1);
+    Conveyor2.set(-1);
+  }
+
+  public void stop(){
+    Conveyor1.set(0);
+    Conveyor2.set(0);
   }
 
 }

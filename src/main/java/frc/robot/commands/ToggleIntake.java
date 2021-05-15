@@ -9,23 +9,20 @@ package frc.robot.commands;
 
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.subsystems.IntakeSubsystem;
+//import frc.robot.subsystems.LifterIntakeToggle;
 import frc.robot.subsystems.LifterSubsystem;
 
-public class ToggleLifter extends CommandBase {
+public class ToggleIntake extends CommandBase {
   /**
-   * Creates a new ToggleLifter.
+   * Creates a new ToggleIntake.
    */
-
-   //LifterIntakeToggle LIT;
-   LifterSubsystem lsub;
+  LifterSubsystem lsub;
    IntakeSubsystem isub;
-  public ToggleLifter(LifterSubsystem lit,IntakeSubsystem yuppo) {
-    //LIT = lit;
-    //addRequirements(LIT);
-    lsub = lit;
-    isub = yuppo;
-    addRequirements(lsub);
-    addRequirements(isub);
+  public ToggleIntake(LifterSubsystem a,IntakeSubsystem b) {
+    lsub = a;
+    isub = b;
+    addRequirements(a);
+    addRequirements(b);
     // Use addRequirements() here to declare subsystem dependencies.
   }
 
@@ -34,19 +31,19 @@ public class ToggleLifter extends CommandBase {
   public void initialize() {
     /*if(lsub.active == isub.active)
     {
-      lsub.toggle(true);
+      isub.toggle(true);
     }
     else
     {*/
-      lsub.toggle(true);
-      isub.toggle(false);
+      lsub.toggle(false);
+      isub.toggle(true);
     //}
+    //LIT.ToggleToggle(false);
   }
 
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    
   }
 
   // Called once the command ends or is interrupted.

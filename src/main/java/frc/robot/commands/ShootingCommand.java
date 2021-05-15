@@ -28,8 +28,9 @@ public class ShootingCommand extends SequentialCommandGroup {
     // Add your commands in the super() call, e.g.
     // super(new FooCommand(), new BarCommand());
     super(
-new ShootingAngleCommand(drive, camera, lifter),
-new ShootingSpeedCommand(shooter, camera)
+new ShootingPeekCommand(lifter).withTimeout(7),
+new ShootingAngleCommand(drive, camera),
+new ShootingSpeedCommand(shooter, camera, lifter)
     );
   }
 }

@@ -23,6 +23,8 @@ public class IntakeSubsystem extends SubsystemBase {
 
   CANSparkMax intakeMotor;
 
+  public Boolean active = true;
+
   public IntakeSubsystem() {
     //intakeSolenoid = new DoubleSolenoid(0, 1, 2);
     intakeMotor = new CANSparkMax(7, MotorType.kBrushless);
@@ -42,15 +44,28 @@ public class IntakeSubsystem extends SubsystemBase {
   }
 
   public void ballsIn(){
-    intakeMotor.set(1);
+    if(active)
+    {
+      intakeMotor.set(-1);
+    }
   }
 
   public void stop(){
+    if(active)
+    {
     intakeMotor.set(0);
+    }
   }
 
   public void pushBalls(){
-    intakeMotor.set(-1);
+    if(active)
+    {
+    intakeMotor.set(1);
+    }
   }
 
+  public void toggle(boolean isActive)
+  {
+    active = isActive;
+  }
 }

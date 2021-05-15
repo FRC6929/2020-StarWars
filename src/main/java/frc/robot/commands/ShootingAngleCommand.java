@@ -11,7 +11,6 @@ import edu.wpi.first.wpilibj.controller.PIDController;
 import edu.wpi.first.wpilibj2.command.PIDCommand;
 import frc.robot.subsystems.CameraSubsystem;
 import frc.robot.subsystems.DriveTrainSubsystem;
-import frc.robot.subsystems.LifterSubsystem;
 
 // NOTE:  Consider using this command inline, rather than writing a subclass.  For more
 // information, see:
@@ -22,11 +21,9 @@ public class ShootingAngleCommand extends PIDCommand {
    */
   CameraSubsystem cameraSubsystem;
   DriveTrainSubsystem driveTrainSubsystem;
-  LifterSubsystem lifterSubsystem;
+  
 
-  public ShootingAngleCommand( DriveTrainSubsystem drive, CameraSubsystem camera, LifterSubsystem lifter) {
-    
-    
+  public ShootingAngleCommand( DriveTrainSubsystem drive, CameraSubsystem camera) {
     
     super(
         // The controller that the command will use
@@ -44,8 +41,7 @@ public class ShootingAngleCommand extends PIDCommand {
   
         addRequirements(camera);
         addRequirements(drive);
-        addRequirements(lifter);
-  }
+        }
 
   // Returns true when the command should end.
   @Override

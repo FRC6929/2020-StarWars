@@ -23,7 +23,7 @@ public class CameraSubsystem extends SubsystemBase {
     // This method will be called once per scheduler run
   }
 
-  public double getDistance(){
+  public double getVerticalAngle(){
     //return NetworkTableInstance.getDefault().getTable("limelight").getEntry("ty").getDouble(0);
     return 0.6;
   }
@@ -34,5 +34,36 @@ public class CameraSubsystem extends SubsystemBase {
   public double getTargetNumber(){
     //return NetworkTableInstance.getDefault().getTable("limelight").getEntry("tv").getDouble(0);
     return 1;
+  }
+  public double getDistance(double LifterHeight){
+
+    double baseCameraHeight = 0.6604;
+    double lifterHeight = LifterHeight;
+    double targetHeight = 2.4892;
+
+    
+    //goals : find distance x of a rectangle triangle 
+    /*known : 
+      the encoder measure of the lifter with the camera
+      the base height of the camera 
+      the angle point as seen from the camera
+    */
+
+    //1) Camera height
+
+    double CameraHeight = baseCameraHeight + lifterHeight;
+
+    
+    double y = CameraHeight - targetHeight;
+    
+    //2) Tangeant
+
+    double cTan = Math.tan(getVerticalAngle());
+
+    //3) distance
+
+    double x = 1 / (cTan / y) ;
+
+    return x;
   }
 }

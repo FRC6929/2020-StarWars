@@ -4,6 +4,7 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.subsystems.ShooterSubsystem;
 import frc.robot.subsystems.CameraSubsystem;
+import frc.robot.subsystems.LifterSubsystem;
 
 public class ShootingSpeedCommand extends CommandBase {
   /**
@@ -11,12 +12,15 @@ public class ShootingSpeedCommand extends CommandBase {
    * */
    ShooterSubsystem shooterSubsystem;
    CameraSubsystem cameraSubsystem;
+   LifterSubsystem lifterSubsystem;
    
-  public ShootingSpeedCommand(ShooterSubsystem subsystem1, CameraSubsystem subsystem2) {
+  public ShootingSpeedCommand(ShooterSubsystem subsystem1, CameraSubsystem subsystem2, LifterSubsystem subsystem3) {
     shooterSubsystem = subsystem1;
     addRequirements(subsystem1);
     cameraSubsystem = subsystem2;
     addRequirements(subsystem2);
+    lifterSubsystem = subsystem3;
+    addRequirements(subsystem3);
     
     // Use addRequirements() here to declare subsystem dependencies.
   }
@@ -30,7 +34,7 @@ public class ShootingSpeedCommand extends CommandBase {
   @Override
   public void execute() {
     if(cameraSubsystem.getTargetNumber() > 0){
-      shooterSubsystem.shoot(cameraSubsystem.getDistance());
+      shooterSubsystem.shoot(cameraSubsystem.getDistance(lifterSubsystem.getHeight()));
     }
     else{
       shooterSubsystem.stop();

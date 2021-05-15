@@ -8,45 +8,30 @@
 package frc.robot.commands;
 
 import edu.wpi.first.wpilibj2.command.CommandBase;
-import frc.robot.subsystems.IntakeSubsystem;
 import frc.robot.subsystems.LifterSubsystem;
 
-public class ToggleLifter extends CommandBase {
+public class ShootingPeekCommand extends CommandBase {
   /**
-   * Creates a new ToggleLifter.
+   * Creates a new ShootingPeekCommand.
    */
 
-   //LifterIntakeToggle LIT;
-   LifterSubsystem lsub;
-   IntakeSubsystem isub;
-  public ToggleLifter(LifterSubsystem lit,IntakeSubsystem yuppo) {
-    //LIT = lit;
-    //addRequirements(LIT);
-    lsub = lit;
-    isub = yuppo;
-    addRequirements(lsub);
-    addRequirements(isub);
+   LifterSubsystem lifterSubsystem;
+  public ShootingPeekCommand(LifterSubsystem lifter) {
+    lifterSubsystem = lifter;
+    addRequirements(lifterSubsystem);
     // Use addRequirements() here to declare subsystem dependencies.
   }
 
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
-    /*if(lsub.active == isub.active)
-    {
-      lsub.toggle(true);
-    }
-    else
-    {*/
-      lsub.toggle(true);
-      isub.toggle(false);
-    //}
+    
   }
 
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    
+    lifterSubsystem.peek();
   }
 
   // Called once the command ends or is interrupted.
